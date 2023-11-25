@@ -52,7 +52,7 @@ class KurikulumModel extends Model
             $kurikulum->where('nama_kurikulum', 'LIKE', '%'.$filter['nama_kurikulum'].'%');
         }
 
-        $sort = $sort ?: 'id DESC';
+        $sort = $sort ?: 'id_kurikulum DESC';
         $kurikulum->orderByRaw($sort);
         $itemPerPage = $itemPerPage > 0 ? $itemPerPage : false;
         

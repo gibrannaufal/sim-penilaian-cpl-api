@@ -18,7 +18,7 @@ use App\Http\Controllers\Api\KurikulumController;
 Route::prefix('v1')->group(function () {
     
     // Kurikulum 
-    Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware(['web', 'auth.api']);
+    Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware(['auth.api']);
     
     
     /**

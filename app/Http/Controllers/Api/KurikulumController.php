@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\KurikulumHelpers\KurikulumHelper;
 use App\Http\Resources\Customer\KurikulumCollection;
-
 class KurikulumController extends Controller
 {
     private $kurikulum;
@@ -22,6 +21,7 @@ class KurikulumController extends Controller
      */
     public function index(Request $request)
     {
+        // dd("coba");
         $filter = ['nama' => $request->nama ?? ''];
         $listKurikulum = $this->kurikulum->getAll($filter, $request->itemperpage ?? 0, $request->sort ?? '');
 
