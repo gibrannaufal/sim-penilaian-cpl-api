@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Customer;
+namespace App\Http\Resources\Kurikulum;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -15,7 +15,7 @@ class KurikulumCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'list' => $this->collection, // otomatis mengikuti format UserResource
+            'list' => $this->collection, 
             'meta' => [
                 'links' => $this->getUrlRange(1, $this->lastPage()),
                 'total' => $this->total()

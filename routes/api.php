@@ -19,6 +19,7 @@ Route::prefix('v1')->group(function () {
     
     // Kurikulum 
     Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware(['auth.api']);
+    Route::post('/kurikulum', [KurikulumController::class, 'store'])->middleware(['auth.api']);
     
     
     /**

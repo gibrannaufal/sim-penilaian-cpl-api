@@ -58,4 +58,8 @@ class KurikulumModel extends Model
         
         return $kurikulum->paginate($itemPerPage)->appends('sort', $sort);
     }
+    public function store(array $payload)
+    {
+        return $this->create($payload);
+    }
 }
