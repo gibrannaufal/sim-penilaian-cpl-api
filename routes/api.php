@@ -19,8 +19,10 @@ Route::prefix('v1')->group(function () {
     
     // Kurikulum 
     Route::get('/kurikulum', [KurikulumController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/kurikulum/{id}', [KurikulumController::class, 'show'])->middleware(['auth.api']);
     Route::post('/kurikulum', [KurikulumController::class, 'store'])->middleware(['auth.api']);
-    
+    Route::put('/kurikulum', [KurikulumController::class, 'update'])->middleware(['auth.api']);
+    Route::delete('/kurikulum/{id}', [KurikulumController::class, 'destroy'])->middleware(['auth.api']);
     
     /**
      * Route khusus authentifikasi

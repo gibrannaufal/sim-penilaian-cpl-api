@@ -47,8 +47,8 @@ class KurikulumController extends Controller
             'kode_kurikulum',
             'nama_kurikulum',
             'tahun',
-            'Periode',
-            'Profil Lulusan',
+            'periode',
+            'profil_lulusan',
             'cpl',
             'id'
         ]);
@@ -58,6 +58,7 @@ class KurikulumController extends Controller
         if (!$kurikulum['status']) {
             return response()->failed($kurikulum['error']);
         }
+        // dd($kurikulum['data']);
 
         return response()->success(new kurikulumResource($kurikulum['data']), 'kurikulum berhasil ditambahkan');
     }
@@ -70,7 +71,13 @@ class KurikulumController extends Controller
      */
     public function show($id)
     {
-        //
+        $kurikulum = $this->kurikulum->getById($id);
+
+        if (!($kurikulum['status'])) {
+            return response()->failed(['Data kurikulum tidak ditemukan'], 404);
+        }
+
+        return response()->success(new KurikulumResource($kurikulum['data']));
     }
 
     /**
@@ -80,10 +87,32 @@ class KurikulumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        if (isset($request->validator) && $request->validator->fails()) {
+            return response()->failed($request->validator->errors());
+        }
+        
+        $payload = $request->only([
+            'kode_kurikulum',
+            'nama_kurikulum',
+            'tahun',
+            'periode',
+            'profil_lulusan',
+            'cpl',
+            'id_kurikulum',
+        ]);
+
+        $kurikulum = $this->kurikulum->update($payload, $payload['id_kurikulum'] ?? 0);
+
+        if (!$kurikulum['status']) {
+            return response()->failed($kurikulum['error']);
+        }
+
+        return response()->success(new kurikulumResource($kurikulum['data']), 'kurikulum berhasil diubah');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -93,6 +122,12 @@ class KurikulumController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $kurikulum = $this->kurikulum->delete($id);
+        
+        if (!$kurikulum['status']) {
+            return response()->failed(['Mohon maaf kurikulum tidak ditemukan']);
+        }
+
+        return response()->success($kurikulum, 'kurikulum berhasil dihapus');
     }
 }

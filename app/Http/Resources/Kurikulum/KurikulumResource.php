@@ -21,6 +21,7 @@ class KurikulumResource extends JsonResource
             'tahun' => $this->tahun,
             'periode' => $this->periode,
             'profil_lulusan' => $this->profil_lulusan,
+            'cpl' => $this->cpl
         ];
     }
 }

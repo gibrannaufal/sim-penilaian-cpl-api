@@ -38,8 +38,19 @@ class KurikulumModel extends Model
         'nama_kurikulum',
         'tahun',
         'periode',
-        'profil__lulusan'
+        'profil_lulusan'
     ];
+
+    /**
+     * Relasi ke tabel child m_cpl
+     *
+     * @return void
+     */
+    public function cpl()
+    {
+        return $this->hasMany(cplModel::class, 'id_kurikulum_fk', 'id_kurikulum');
+    }
+
     public function getAll(array $filter, int $itemPerPage = 0, string $sort = ''): object
     {
         $kurikulum = $this->query();
@@ -58,6 +69,23 @@ class KurikulumModel extends Model
         
         return $kurikulum->paginate($itemPerPage)->appends('sort', $sort);
     }
+
+    public function drop(int $id)
+    {
+        return $this->find($id)->delete();
+    }
+
+    public function edit(array $payload, int $id)
+    {
+        return $this->find($id)->update($payload);
+    }
+
+
+    public function getById(int $id)
+    {
+        return $this->find($id);
+    }
+
     public function store(array $payload)
     {
         return $this->create($payload);

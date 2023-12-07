@@ -42,4 +42,13 @@ class cplModel extends Model
     {
         return $this->create($payload);
     }
+
+    public function edit(array $payload, int $id)
+    {
+        return $this->find($id)->update($payload);
+    }
+    public function dropByKurikulumId(int $kurikulumId)
+    {
+        return $this->where('id_kurikulum_fk', $kurikulumId)->delete();
+    }
 }
