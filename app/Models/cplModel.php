@@ -51,4 +51,9 @@ class cplModel extends Model
     {
         return $this->where('id_kurikulum_fk', $kurikulumId)->delete();
     }
+    
+    public function drop(int $id)
+    {
+        return $this->find($id)->delete();
+    }
 }

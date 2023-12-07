@@ -101,7 +101,9 @@ class KurikulumController extends Controller
             'profil_lulusan',
             'cpl',
             'id_kurikulum',
+            'cpl_deleted'
         ]);
+
 
         $kurikulum = $this->kurikulum->update($payload, $payload['id_kurikulum'] ?? 0);
 

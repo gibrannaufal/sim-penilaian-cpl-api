@@ -137,17 +137,18 @@ class KurikulumHelper
     {
         try {
 
+            // dd($payload['cpl']);
             $this->kurikulumModel->edit($payload, $payload['id_kurikulum']);
 
             $this->updateCpl($payload['cpl'] ?? [], $payload['id_kurikulum']);
+            
+            $this->deleteCpl($payload['cpl_deleted'] ?? []);
 
-            $this->deleteDetail($payload['details_deleted'] ?? []);
-
-            $product = $this->getById($payload['id_kurikulum']);
+            $kurikulum = $this->getById($payload['id_kurikulum']);
 
             return [
                 'status' => true,
-                'data' => $product['data']
+                'data' => $kurikulum['data']
             ];
         } catch (Throwable $th) {
             return [
@@ -165,14 +166,14 @@ class KurikulumHelper
      *
      * @return array
      */
-    private function deleteDetail(array $details)
+    private function deleteCpl(array $kurikulum)
     {
-        if (empty($details)) {
+        if (empty($kurikulum)) {
             return false;
         }
-
-        foreach ($details as $val) {
-            $this->cplModel->drop($val['id']);
+        
+        foreach ($kurikulum as $val) {
+            $this->cplModel->drop($val['id_cpl']);
         }
     }
 
@@ -208,9 +209,15 @@ class KurikulumHelper
         if (empty($cpl)) {
             return false;
         }
+
         foreach ($cpl as $val) {
-            $val['id_kurikulum_fk'] = $kurikulumId;
-            $this->cplModel->edit($val, $val['id_kurikulum_fk']);
+            if(isset($val['id_cpl']))
+            {
+                $this->cplModel->edit($val, $val['id_cpl']);
+            }else{
+                $val['id_kurikulum_fk'] = $kurikulumId;
+                $this->cplModel->store($val);
+            }
             
         }
     }
