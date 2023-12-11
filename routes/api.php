@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CpmkController;
 use App\Http\Controllers\Api\KurikulumController;
+use App\Http\Controllers\FilterController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +27,20 @@ Route::prefix('v1')->group(function () {
     Route::put('/kurikulum', [KurikulumController::class, 'update'])->middleware(['auth.api']);
     Route::delete('/kurikulum/{id}', [KurikulumController::class, 'destroy'])->middleware(['auth.api']);
     
+    //cpmk
+    Route::get('/cpmk', [CpmkController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/cpmk/{id}', [CpmkController::class, 'show'])->middleware(['auth.api']);
+    Route::post('/cpmk', [CpmkController::class, 'store'])->middleware(['auth.api']);
+    Route::put('/cpmk', [CpmkController::class, 'update'])->middleware(['auth.api']);
+    Route::delete('/cpmk/{id}', [CpmkController::class, 'destroy'])->middleware(['auth.api']);
+    
+
+
+    //filter
+    Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);
+    Route::get('/cplFilter/{id}', [FilterController::class, 'getCplFilter'])->middleware(['auth.api']);
+
+
     /**
      * Route khusus authentifikasi
     */

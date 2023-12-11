@@ -10,7 +10,7 @@ use Throwable;
  * Helper untuk manajemen kurikulum
  * Mengambil data, menambah, mengubah, & menghapus ke tabel m_kurikulum
  *
- * @author Wahyu Agung <wahyuagung26@gmail.com>
+ * @author Muhammad Naufal Gibran <naufalgibran961@gmail.com>
  */
 class KurikulumHelper 
 {
@@ -30,7 +30,6 @@ class KurikulumHelper
      *
      * @param  array $filter
      * $filter['nama_kurikulum'] = string
-     * $filter['periode'] = string
      * @param integer $itemPerPage jumlah data yang tampil dalam 1 halaman, kosongi jika ingin menampilkan semua data
      * @param string $sort nama kolom untuk melakukan sorting mysql beserta tipenya DESC / ASC
      *
@@ -72,7 +71,7 @@ class KurikulumHelper
     }
 
      /**
-     * Mengambil spesifik product dari tabel m_kurikulum
+     * Mengambil spesifik kurikulum dari tabel m_kurikulum
      *
      * @author Muhammad Naufal Gibran <naufalgibran961@gmail.com>
      *
@@ -97,9 +96,9 @@ class KurikulumHelper
     }
 
       /**
-     * Delete data product & product detail
+     * Delete data kurikulum & cpl
      *
-     * @param integer $productId
+     * @param integer $cpmkId
      * @return void
      */
     public function delete(int $kurikulumId)
@@ -124,7 +123,7 @@ class KurikulumHelper
     }
 
     /**
-     * method untuk mengubah data product di table m_kurikulum
+     * method untuk mengubah data Kurikulum di table m_kurikulum
      *
      * @author Muhammad Naufal Gibran <naufalgibran961@email.com>
      *

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule as rules;
 use App\Helpers\KurikulumHelpers\KurikulumHelper;
-use App\Http\Resources\Kurikulum\KurikulumCollection;
 use App\Http\Resources\Kurikulum\KurikulumResource;
+use App\Http\Resources\Kurikulum\KurikulumCollection;
 
 class KurikulumController extends Controller
 {
@@ -39,10 +40,32 @@ class KurikulumController extends Controller
      */
     public function store(Request $request)
     {
-        if (isset($request->validator) && $request->validator->fails()) {
-            return response()->failed($request->validator->errors());
-        }
+        // if (isset($request->validator) && $request->validator->fails()) {
+        //     return response()->failed($request->validator->errors());
+        // }
 
+        $request->validate([
+            'kode_kurikulum' => 'required|string',
+            'nama_kurikulum' => 'required|string',
+            'tahun' => [
+                'required',
+                'integer',
+                rules::unique('m_kurikulum')->where(function ($query) use ($request) {
+                    return $query->where('tahun', $request->tahun);
+                }),
+            ],
+            'periode' => 'required|string',
+            'profil_lulusan' => 'required|string',
+        ], [
+            'tahun.unique' => 'Tahun sudah ada di database.',
+            'kode_kurikulum.required' => 'Kode kurikulum harus di isi.',
+            'nama_kurikulum.required' => 'Nama kurikulum harus di isi.',
+            'tahun.required' => 'Tahun harus di isi.',
+            'tahun.integer' => 'Tahun harus berbentuk angka.',
+            'periode.required' => 'speriode harus di isi.',
+            'profil_lulusan.required' => 'profil lulusan harus di isi.',
+        ]);
+        
         $payload = $request->only([
             'kode_kurikulum',
             'nama_kurikulum',
@@ -88,10 +111,24 @@ class KurikulumController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {
-        if (isset($request->validator) && $request->validator->fails()) {
-            return response()->failed($request->validator->errors());
-        }
+    {   
+        $request->validate([
+            'kode_kurikulum' => 'required|string',
+            'nama_kurikulum' => 'required|string',
+            'tahun' => [
+                'required',
+                'integer'
+            ],
+            'periode' => 'required|string',
+            'profil_lulusan' => 'required|string',
+        ], [
+            'kode_kurikulum.required' => 'Kode kurikulum harus di isi.',
+            'nama_kurikulum.required' => 'Nama kurikulum harus di isi.',
+            'tahun.required' => 'Tahun harus di isi.',
+            'tahun.integer' => 'Tahun harus berbentuk angka.',
+            'periode.required' => 'speriode harus di isi.',
+            'profil_lulusan.required' => 'profil lulusan harus di isi.',
+        ]);
         
         $payload = $request->only([
             'kode_kurikulum',
@@ -113,8 +150,6 @@ class KurikulumController extends Controller
 
         return response()->success(new kurikulumResource($kurikulum['data']), 'kurikulum berhasil diubah');
     }
-
-
 
     /**
      * Remove the specified resource from storage.
