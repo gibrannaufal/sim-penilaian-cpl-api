@@ -16,11 +16,11 @@ class AddKurikulum extends Migration
         Schema::create('m_kurikulum', function (Blueprint $table) {
             $table->increments('id_kurikulum');
 
-            $table->string('kode_kurikulum', 20)->nullable();
-            $table->string('nama_kurikulum', 20)->nullable();
-            $table->string('tahun', 15)->nullable();
-            $table->string('periode', 15)->nullable();
-            $table->string('profil_lulusan', 15)->nullable();
+            $table->string('kode_kurikulum', 200)->nullable();
+            $table->string('nama_kurikulum', 200)->nullable();
+            $table->string('tahun', 200)->nullable();
+            $table->string('periode', 200)->nullable();
+            $table->string('profil_lulusan', 200)->nullable();
 
             $table->timestamps();
             $table->softDeletes(); // Generate deleted_at

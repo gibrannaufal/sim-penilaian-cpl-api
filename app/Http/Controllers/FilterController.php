@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cplModel;
+use App\Models\CpmkModel;
 use Illuminate\Http\Request;
 use App\Models\KurikulumModel;
 
@@ -36,5 +37,19 @@ class FilterController extends Controller
         ->get();
 
         return response()->json($listCpl);
+    }
+     /**
+     * Menampilkan cpl untuk filter by id_kurikulum_fk.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCpmkFilter($id)
+    {
+        $listCpmk = CpmkModel::select('id_cpmk','id_kurikulum_fk','id_cpl_fk',  'kode_cpmk', 'deskripsi_cpmk')
+        ->where('id_kurikulum_fk', '=', $id)
+        ->orderBy('id_cpmk', 'desc')
+        ->get();
+
+        return response()->json($listCpmk);
     }
 }
