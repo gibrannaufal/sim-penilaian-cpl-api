@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);
     Route::get('/cplFilter/{id}', [FilterController::class, 'getCplFilter'])->middleware(['auth.api']);
     Route::get('/cpmkFilter/{id}', [FilterController::class, 'getCpmkFilter'])->middleware(['auth.api']);
+    Route::get('/cpmkFilterAll', [FilterController::class, 'getCpmkAll'])->middleware(['auth.api']);
 
     /**
      * Route khusus authentifikasi

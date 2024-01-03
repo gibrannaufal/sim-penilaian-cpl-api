@@ -39,7 +39,7 @@ class FilterController extends Controller
         return response()->json($listCpl);
     }
      /**
-     * Menampilkan cpl untuk filter by id_kurikulum_fk.
+     * Menampilkan cpmk untuk filter by id_kurikulum_fk.
      *
      * @return \Illuminate\Http\Response
      */
@@ -47,6 +47,22 @@ class FilterController extends Controller
     {
         $listCpmk = CpmkModel::select('id_cpmk','id_kurikulum_fk','id_cpl_fk',  'kode_cpmk', 'deskripsi_cpmk')
         ->where('id_kurikulum_fk', '=', $id)
+        ->orderBy('id_cpmk', 'desc')
+        ->get();
+
+        return response()->json($listCpmk);
+    }
+       /**
+     * Menampilkan cpmk untuk filter by id_kurikulum_fk dan id_cpl_fk.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCpmkAll(Request $request)
+    {
+        // dd("hello");
+        $listCpmk = CpmkModel::select('id_cpmk','id_kurikulum_fk','id_cpl_fk',  'kode_cpmk', 'deskripsi_cpmk')
+        ->where('id_kurikulum_fk', '=', $request->id_kurikulum)
+        ->where('id_cpl_fk', '=', $request->id_cpl)
         ->orderBy('id_cpmk', 'desc')
         ->get();
 
