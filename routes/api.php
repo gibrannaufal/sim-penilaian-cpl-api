@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CpmkController;
 use App\Http\Controllers\Api\KurikulumController;
 use App\Http\Controllers\Api\MataKuliahController;
+use App\Http\Controllers\Api\SubCpmkController;
 use App\Http\Controllers\FilterController;
 
 /*
@@ -43,13 +44,21 @@ Route::prefix('v1')->group(function () {
     Route::put('/mataKuliah', [MataKuliahController::class, 'update'])->middleware(['auth.api']);
     Route::delete('/mataKuliah/{id}', [MataKuliahController::class, 'destroy'])->middleware(['auth.api']);
     
-
+    // Sub-CPMK
+    Route::get('/subCpmk', [SubCpmkController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/subCpmk/{id}', [SubCpmkController::class, 'show'])->middleware(['auth.api']);
+    Route::post('/subCpmk', [SubCpmkController::class, 'store'])->middleware(['auth.api']);
+    Route::put('/subCpmk', [SubCpmkController::class, 'update'])->middleware(['auth.api']);
+    Route::delete('/subCpmk/{id}', [SubCpmkController::class, 'destroy'])->middleware(['auth.api']);
 
     //filter
     Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);
     Route::get('/cplFilter/{id}', [FilterController::class, 'getCplFilter'])->middleware(['auth.api']);
     Route::get('/cpmkFilter/{id}', [FilterController::class, 'getCpmkFilter'])->middleware(['auth.api']);
     Route::get('/cpmkFilterAll', [FilterController::class, 'getCpmkAll'])->middleware(['auth.api']);
+    Route::get('/detailMk', [FilterController::class, 'getDetailMk'])->middleware(['auth.api']);
+    Route::get('/mkById', [FilterController::class, 'getMkById'])->middleware(['auth.api']);
+    Route::get('/subCpmkAll', [FilterController::class, 'getSubCpmkAll'])->middleware(['auth.api']);
 
     /**
      * Route khusus authentifikasi
