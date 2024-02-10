@@ -26,6 +26,8 @@ class MataKuliahResource extends JsonResource
             'id_kurikulum_fk' => $this->kurikulum['id_kurikulum'],
             'kode_kurikulum' => $this->kurikulum['kode_kurikulum'],
             'kurikulum' => $this->kurikulum,
+            'status' => $this->status,
+            'pesan' => $this->pesan_validasi,
             'mk_detail' => $this->detailMk
         ];
     }

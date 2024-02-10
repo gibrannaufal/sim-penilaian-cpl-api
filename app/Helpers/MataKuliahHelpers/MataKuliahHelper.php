@@ -53,7 +53,7 @@ class MataKuliahHelper
     public function create(array $payload): array
     {
         try {
-
+            $payload['status'] = 'draft';
             $mk = $this->mataKuliah->store($payload);
 
             $this->insertDetail($payload['mk_detail'] ?? [], $mk->id_matakuliah);
@@ -193,6 +193,7 @@ class MataKuliahHelper
         }
         foreach ($detail as $val) {
             $val['id_mk_fk'] = $mkId;
+            $val['status'] = 'draft';
             $this->mkDetail->store($val);
         }
     }

@@ -42,7 +42,9 @@ class MataKuliahModel extends Model
         'sks',
         'bobot',
         'semester',
-        'bobot_kajian'
+        'bobot_kajian',
+        'status',
+        'pesan'
     ];
     /**
          * Relasi ke tabel child m_kurikulum

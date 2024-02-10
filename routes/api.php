@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CpmkController;
 use App\Http\Controllers\Api\KurikulumController;
 use App\Http\Controllers\Api\MataKuliahController;
 use App\Http\Controllers\Api\SubCpmkController;
+use App\Http\Controllers\Api\ValidasiMkController;
 use App\Http\Controllers\FilterController;
 
 /*
@@ -50,6 +51,12 @@ Route::prefix('v1')->group(function () {
     Route::post('/subCpmk', [SubCpmkController::class, 'store'])->middleware(['auth.api']);
     Route::put('/subCpmk', [SubCpmkController::class, 'update'])->middleware(['auth.api']);
     Route::delete('/subCpmk/{id}', [SubCpmkController::class, 'destroy'])->middleware(['auth.api']);
+
+    //validasi mk
+    Route::put('/validasiMk/diterima', [ValidasiMkController::class, 'diterima'])->middleware(['auth.api']);
+    Route::put('/validasiMk/ditolak', [ValidasiMkController::class, 'ditolak'])->middleware(['auth.api']);
+    Route::put('/validasiMk/diterimaDetail', [ValidasiMkController::class, 'diterimaDetail'])->middleware(['auth.api']);
+    Route::put('/validasiMk/ditolakDetail', [ValidasiMkController::class, 'ditolakDetail'])->middleware(['auth.api']);
 
     //filter
     Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);

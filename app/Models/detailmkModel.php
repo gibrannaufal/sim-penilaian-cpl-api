@@ -38,7 +38,9 @@ class detailmkModel extends Model
         'id_cpl_fk',
         'id_cpmk_fk',
         'indikator_pencapaian',
-        'bobot_detailmk'
+        'bobot_detailmk',
+        'status',
+        'pesan'
     ];
 
     /**
