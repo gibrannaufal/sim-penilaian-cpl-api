@@ -47,6 +47,9 @@ class MataKuliahController extends Controller
             'bobot',
             'semester',
             'bobot_kajian',
+            'uuid_api',
+            'prodi',
+            'kelas',
             'mk_detail'
         ]);
         // dd($payload);
@@ -96,6 +99,9 @@ class MataKuliahController extends Controller
             'bobot',
             'semester',
             'bobot_kajian',
+            'uuid_api',
+            'prodi',
+            'kelas',
             'mk_detail',
             'mk_detail_deleted'
         ]);

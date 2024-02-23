@@ -8,6 +8,7 @@ use App\Models\detailmkModel;
 use Illuminate\Http\Request;
 use App\Models\KurikulumModel;
 use App\Models\MataKuliahModel;
+use App\Models\PenilaianMkModel;
 use App\Models\SubCpmkModel;
 
 class FilterController extends Controller
@@ -131,6 +132,42 @@ class FilterController extends Controller
         ->where('id_mk_fk', '=', $request->id_mk_fk)
         ->where('id_detailmk_fk', '=', $request->id_detailmk_fk)
         ->orderBy('id_subcpmk', 'asc')
+        ->get();
+
+        return response()->json($listSubCpmk);
+    }
+
+    /**
+         * Mengambil SUB-CPMK By id 
+         *
+        * @return \Illuminate\Http\Response
+    */
+    public function getSubCpmkById(Request $request)
+    {
+        // dd($request->id_subcpmk);
+        $listSubCpmk = SubCpmkModel::select('*')
+        ->where('id_subcpmk', '=', $request->id_subcpmk)
+        ->where('id_mk_fk', '=', $request->id_mk_fk)
+        ->where('id_detailmk_fk', '=', $request->id_detailmk_fk)
+        ->orderBy('id_subcpmk', 'asc')
+        ->first();
+
+        return response()->json($listSubCpmk);
+    }
+
+    /**
+         * Mengambil Semua penilaian 
+         *
+        * @return \Illuminate\Http\Response
+    */
+    public function getPenilaianAll(Request $request)
+    {
+        // dd($request->id_subcpmk);
+        $listSubCpmk = PenilaianMkModel::select('*')
+        ->where('id_subcpmk', '=', $request->id_subcpmk)
+        ->where('id_mk_fk', '=', $request->id_mk_fk)
+        ->where('id_detailmk_fk', '=', $request->id_detailmk_fk)
+        ->orderBy('id_penilaian', 'desc')
         ->get();
 
         return response()->json($listSubCpmk);

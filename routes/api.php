@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\ApiStikiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CpmkController;
 use App\Http\Controllers\Api\KurikulumController;
 use App\Http\Controllers\Api\MataKuliahController;
+use App\Http\Controllers\Api\PenilaianMkController;
 use App\Http\Controllers\Api\SubCpmkController;
 use App\Http\Controllers\Api\ValidasiMkController;
 use App\Http\Controllers\FilterController;
@@ -58,6 +60,14 @@ Route::prefix('v1')->group(function () {
     Route::put('/validasiMk/diterimaDetail', [ValidasiMkController::class, 'diterimaDetail'])->middleware(['auth.api']);
     Route::put('/validasiMk/ditolakDetail', [ValidasiMkController::class, 'ditolakDetail'])->middleware(['auth.api']);
 
+    //penilaian mk
+    Route::get('/penilaianMk', [PenilaianMkController::class, 'index'])->middleware(['auth.api']);
+    Route::post('/penilaianMk', [PenilaianMkController::class, 'store'])->middleware(['auth.api']);
+
+    // api stiki
+    Route::get('/getMatkul', [ApiStikiController::class, 'getMatkul'])->middleware(['auth.api']);
+    Route::get('/getListMahasiswa', [ApiStikiController::class, 'getListMahasiswa'])->middleware(['auth.api']);
+
     //filter
     Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);
     Route::get('/cplFilter/{id}', [FilterController::class, 'getCplFilter'])->middleware(['auth.api']);
@@ -66,6 +76,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/detailMk', [FilterController::class, 'getDetailMk'])->middleware(['auth.api']);
     Route::get('/mkById', [FilterController::class, 'getMkById'])->middleware(['auth.api']);
     Route::get('/subCpmkAll', [FilterController::class, 'getSubCpmkAll'])->middleware(['auth.api']);
+    Route::get('/subCpmkById', [FilterController::class, 'getSubCpmkById'])->middleware(['auth.api']);
+    Route::get('/penilaianAll', [FilterController::class, 'getPenilaianAll'])->middleware(['auth.api']);
 
     /**
      * Route khusus authentifikasi

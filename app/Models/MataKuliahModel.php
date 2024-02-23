@@ -44,7 +44,10 @@ class MataKuliahModel extends Model
         'semester',
         'bobot_kajian',
         'status',
-        'pesan'
+        'pesan',
+        'uuid_api',
+        'prodi',
+        'kelas'
     ];
     /**
          * Relasi ke tabel child m_kurikulum

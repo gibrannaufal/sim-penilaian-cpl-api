@@ -15,6 +15,7 @@ class SubCpmkResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id_subcpmk' => $this->id_subcpmk,
             'kode_subcpmk' => $this->kode_subcpmk,
             'nama_subcpmk' => $this->nama_subcpmk,
             'indikator_pencapaian' => $this->indikator_pencapaian,
