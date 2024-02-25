@@ -53,6 +53,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/subCpmk', [SubCpmkController::class, 'store'])->middleware(['auth.api']);
     Route::put('/subCpmk', [SubCpmkController::class, 'update'])->middleware(['auth.api']);
     Route::delete('/subCpmk/{id}', [SubCpmkController::class, 'destroy'])->middleware(['auth.api']);
+    Route::post('/subCpmk/submit', [SubCpmkController::class, 'submit'])->middleware(['auth.api']);
+
 
     //validasi mk
     Route::put('/validasiMk/diterima', [ValidasiMkController::class, 'diterima'])->middleware(['auth.api']);

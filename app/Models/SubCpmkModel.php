@@ -57,7 +57,8 @@ class SubCpmkModel extends Model
         'instrumen_penilaian',
         'pertemuan',
         'id_mk_fk',
-        'id_detailmk_fk'
+        'id_detailmk_fk',
+        'available'
     ];
 
     /**
@@ -161,11 +162,11 @@ class SubCpmkModel extends Model
     {
         $kata = '';
 
-        if (isset($this->partisipasi) && $this->partisipasi === 1) {
+        if (isset($this->partisipasi) && $this->partisipasi >= 1) {
             $kata .= 'Partisipasi';
         }
 
-        if (isset($this->tugas) && $this->tugas === 1) {
+        if (isset($this->tugas) && $this->tugas >= 1) {
             // Jika sudah ada kata sebelumnya, tambahkan koma
             if ($kata !== '') {
                 $kata .= ', ';
@@ -173,7 +174,7 @@ class SubCpmkModel extends Model
             $kata .= 'Tugas/Quiz';
         }
 
-        if (isset($this->presentasi) && $this->presentasi === 1) {
+        if (isset($this->presentasi) && $this->presentasi >= 1) {
             // Jika sudah ada kata sebelumnya, tambahkan koma
             if ($kata !== '') {
                 $kata .= ', ';
@@ -181,7 +182,7 @@ class SubCpmkModel extends Model
             $kata .= 'Presentasi';
         }
 
-        if (isset($this->tes_tulis) && $this->tes_tulis === 1) {
+        if (isset($this->tes_tulis) && $this->tes_tulis >= 1) {
             // Jika sudah ada kata sebelumnya, tambahkan koma
             if ($kata !== '') {
                 $kata .= ', ';
@@ -189,7 +190,7 @@ class SubCpmkModel extends Model
             $kata .= 'Tes Tulis';
         }
 
-        if (isset($this->tes_lisan) && $this->tes_lisan === 1) {
+        if (isset($this->tes_lisan) && $this->tes_lisan >= 1) {
             // Jika sudah ada kata sebelumnya, tambahkan koma
             if ($kata !== '') {
                 $kata .= ', ';
@@ -233,5 +234,16 @@ class SubCpmkModel extends Model
     public function getAllForHelper()
     {
         return $this->get()->toArray();
+    }
+
+    // untuk submit nilai 
+    public function submit(array $payload)
+    {
+        return $this
+            ->where('id_mk_fk', $payload['id_mk_fk'])
+            ->where('id_detailmk_fk', $payload['id_detailmk_fk'])
+            ->where('id_subcpmk', $payload['id_subcpmk'])
+            ->update(['available' => $payload['available']]);
+
     }
 }

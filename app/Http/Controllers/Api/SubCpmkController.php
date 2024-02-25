@@ -61,5 +61,29 @@ class SubCpmkController extends Controller
         return response()->success('SUB-CPMK berhasil ditambahkan');
     }
 
+    /**
+     * Merubah sub-cpmk supaya tidak bisa mengupdate nilai.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function submit(Request $request)
+    {
+       
+        $payload = $request->only([
+            'available',
+            'id_subcpmk',
+            'id_mk_fk',
+            'id_detailmk_fk',
+        ]);
+
+        $subCpmk = $this->SubCpmk->submit($payload);
+
+        if (!$subCpmk['status']) {
+            return response()->failed($subCpmk['error']);
+        }
+
+        return response()->success('SUB-CPMK berhasil ditambahkan');
+    }
    
 }

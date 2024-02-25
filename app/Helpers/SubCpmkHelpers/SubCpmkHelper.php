@@ -82,6 +82,35 @@ class SubCpmkHelper
             ];
         }
     }
+
+    /**
+         * method untuk merubah availability
+         *
+         * @author Muhammad Naufal Gibran <naufalgibran961@gmail.com>
+         *
+         * @param array 
+         *
+         * @return array
+     */
+    public function submit(array $payload): array
+    {
+        try {
+            $subCpmk  =  $this->SubCpmkModel->submit($payload);
+            
+            return [
+                'status' => true,
+                'data' => $subCpmk
+            ];
+        } catch (Throwable $th) {
+
+            return [
+                'status' => false,
+                'error' => $th->getMessage()
+            ];
+        }
+    }
+
+
     
  
 }
