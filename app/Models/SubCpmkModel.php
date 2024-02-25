@@ -58,7 +58,9 @@ class SubCpmkModel extends Model
         'pertemuan',
         'id_mk_fk',
         'id_detailmk_fk',
-        'available'
+        'available',
+        'status_penilaian',
+        'pesan_penilaian'
     ];
 
     /**
@@ -246,4 +248,34 @@ class SubCpmkModel extends Model
             ->update(['available' => $payload['available']]);
 
     }
+
+     // untuk rubah status penilaian menjadi diterima 
+     public function diterima(array $payload)
+     {
+         return $this
+             ->where('id_mk_fk', $payload['id_mk_fk'])
+             ->where('id_detailmk_fk', $payload['id_detailmk_fk'])
+             ->where('id_subcpmk', $payload['id_subcpmk'])
+             ->update([
+                'status_penilaian' => 'diterima',
+                'pesan_penilaian' => null,
+
+            ]);
+ 
+     }
+
+     // untuk rubah status penilaian menjadi ditolak
+     public function ditolak(array $payload)
+     {
+         return $this
+             ->where('id_mk_fk', $payload['id_mk_fk'])
+             ->where('id_detailmk_fk', $payload['id_detailmk_fk'])
+             ->where('id_subcpmk', $payload['id_subcpmk'])
+             ->update([
+                'status_penilaian' => 'ditolak',
+                'pesan_penilaian' => $payload['pesan_penilaian'],
+
+                ]);
+ 
+     }
 }

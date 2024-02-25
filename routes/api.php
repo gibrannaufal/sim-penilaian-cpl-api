@@ -54,6 +54,9 @@ Route::prefix('v1')->group(function () {
     Route::put('/subCpmk', [SubCpmkController::class, 'update'])->middleware(['auth.api']);
     Route::delete('/subCpmk/{id}', [SubCpmkController::class, 'destroy'])->middleware(['auth.api']);
     Route::post('/subCpmk/submit', [SubCpmkController::class, 'submit'])->middleware(['auth.api']);
+    Route::post('/subCpmk/penilaian/diterima', [SubCpmkController::class, 'diterima'])->middleware(['auth.api']);
+    Route::post('/subCpmk/penilaian/ditolak', [SubCpmkController::class, 'ditolak'])->middleware(['auth.api']);
+
 
 
     //validasi mk

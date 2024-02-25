@@ -85,5 +85,54 @@ class SubCpmkController extends Controller
 
         return response()->success('SUB-CPMK berhasil ditambahkan');
     }
+
+     /**
+     * validasi penilaian sub cpmk diterima 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function diterima(Request $request)
+    {
+       
+        $payload = $request->only([
+            'id_subcpmk',
+            'id_mk_fk',
+            'id_detailmk_fk',
+        ]);
+
+        $subCpmk = $this->SubCpmk->diterima($payload);
+
+        if (!$subCpmk['status']) {
+            return response()->failed($subCpmk['error']);
+        }
+
+        return response()->success('SUB-CPMK berhasil ditambahkan');
+    }
+
+    /**
+     * validasi penilaian sub cpmk ditolak 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function ditolak(Request $request)
+    {
+       
+        $payload = $request->only([
+            'pesan_penilaian',
+            'id_subcpmk',
+            'id_mk_fk',
+            'id_detailmk_fk',
+        ]);
+
+        $subCpmk = $this->SubCpmk->ditolak($payload);
+
+        if (!$subCpmk['status']) {
+            return response()->failed($subCpmk['error']);
+        }
+
+        return response()->success('SUB-CPMK berhasil ditambahkan');
+    }
    
 }
