@@ -64,4 +64,16 @@ class PenilaianMkModel extends Model
         return $this->create($payload);
     }
 
+    public function getTotalNilai(array $payload)
+    {
+        $total_nilai = $this->where('id_mk_fk', $payload['id_mk_fk'])
+                   ->where('id_detailmk_fk', $payload['id_detailmk_fk'])
+                   ->selectRaw('ROUND(SUM(total_nilai), 2) as total_nilai, nrp, nama')
+                   ->groupBy('nrp', 'nama')
+                   ->get();
+
+        return $total_nilai;
+
+    }
+
 }

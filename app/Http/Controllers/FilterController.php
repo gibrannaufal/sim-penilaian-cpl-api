@@ -121,7 +121,8 @@ class FilterController extends Controller
     }
 
     /**
-         * Mengambil semua kode sub-cpmk untuk keperluan pengkode an 
+         * Mengambil semua kode sub-cpmk untuk keperluan pengkode an
+         * bisa digunakan untuk hal lain juga 
          *
         * @return \Illuminate\Http\Response
     */

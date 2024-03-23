@@ -6,6 +6,8 @@ namespace App\Helpers\PenilaianMkHelpers;
 use App\Models\MataKuliahModel;
 use App\Models\PenilaianMkModel;
 use Throwable;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Helper untuk manajemen mata kuliah
@@ -67,6 +69,52 @@ class PenilaianMkHelpers
             return [
                 'status' => true,
                 'data' => $penilaian
+            ];
+        } catch (Throwable $th) {
+
+            return [
+                'status' => false,
+                'error' => $th->getMessage()
+            ];
+        }
+    }
+
+      /**
+     * method untuk menginputkan nilai cpmk / detailmk mahasiswa
+     * menjumlahkan semua total nilai yang ada disubcpmk yang dipilih
+     * id_mk_fk dan id_detailmk_fk
+     *
+     * @author Muhammad Naufal Gibran <naufalgibran961@gmail.com>
+     *
+     * @param array 
+     *
+     * @return array
+     */
+    public function penilaianDetail(array $payload): array
+    {
+        try {
+            $totalNilai =  $this->penilaian->getTotalNilai($payload);
+            
+            foreach ($totalNilai as $key => $value) {
+                $data = DB::table('t_totalnilai_cpmk')->insert([
+                    'total_nilai' => $value->total_nilai,
+                    'nrp' => $value->nrp,
+                    'nama' => $value->nama,
+                    'id_mk_fk' => $payload['id_mk_fk'],
+                    'id_detailmk_fk' => $payload['id_detailmk_fk']
+                ]);
+            }
+
+            // Update tabel m_detailmk
+            DB::table('m_detailmk')
+            ->where('id_mk_fk', $payload['id_mk_fk'])
+            ->where('id_detailmk', $payload['id_detailmk_fk'])
+            ->update(['is_nilai' => 1]);
+
+
+            return [
+                'status' => true,
+                'data' => $data
             ];
         } catch (Throwable $th) {
 

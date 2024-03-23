@@ -51,4 +51,28 @@ class PenilaianMkController extends Controller
         return response()->success('Penilaian berhasil ditambahkan');
     }
 
+    /**
+         * Store a newly created resource in storage.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @return \Illuminate\Http\Response
+     */
+    public function penilaianDetail(Request $request)
+    {
+       
+        $payload = $request->only([
+            'id_mk_fk',
+            'id_detailmk_fk',
+        ]);
+
+        $penilaian = $this->penilaian->penilaianDetail($payload);
+
+        if (!$penilaian['status']) {
+            return response()->failed($penilaian['error']);
+        }
+
+        return response()->success($penilaian["data"]);
+
+    }
+
 }

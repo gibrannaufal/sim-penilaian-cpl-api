@@ -24,6 +24,7 @@ class SubCpmkResource extends JsonResource
             'instrumen_penilaian' => $this->instrumen_penilaian,
             'pertemuan' => $this->pertemuan,
             'pesan_penilaian' => $this->pesan_penilaian,
+            'available' => $this->available,
             'status_penilaian' => $this->status_penilaian,
             
         ];

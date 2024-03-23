@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CpmkController;
+use App\Http\Controllers\Api\EvaluasiCplController;
 use App\Http\Controllers\Api\KurikulumController;
 use App\Http\Controllers\Api\MataKuliahController;
 use App\Http\Controllers\Api\PenilaianMkController;
@@ -68,6 +69,12 @@ Route::prefix('v1')->group(function () {
     //penilaian mk
     Route::get('/penilaianMk', [PenilaianMkController::class, 'index'])->middleware(['auth.api']);
     Route::post('/penilaianMk', [PenilaianMkController::class, 'store'])->middleware(['auth.api']);
+    Route::post('/penilaianMk/detail', [PenilaianMkController::class, 'penilaianDetail'])->middleware(['auth.api']);
+
+    //evaluasi cpl
+    Route::get('/evaluasiCpl', [EvaluasiCplController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/evaluasiCpl/rekap', [EvaluasiCplController::class, 'rekap'])->middleware(['auth.api']);
+
 
     // api stiki
     Route::get('/getMatkul', [ApiStikiController::class, 'getMatkul'])->middleware(['auth.api']);
