@@ -33,7 +33,7 @@ class ApiStikiHelpers
                 'prodi' => 'asc',
                 'sks' => 'desc'
             ],
-            'limit' => 5,
+            'limit' => 20,
             'offset' => 0
         ];
 
@@ -43,7 +43,7 @@ class ApiStikiHelpers
                 'tahun' => '2020',
                 'semester' => 'Genap'
             ),
-            'limit' => 50,
+            'limit' => 100,
             'order' => array('kode'=>'asc')
 
         );  

@@ -90,6 +90,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/subCpmkAll', [FilterController::class, 'getSubCpmkAll'])->middleware(['auth.api']);
     Route::get('/subCpmkById', [FilterController::class, 'getSubCpmkById'])->middleware(['auth.api']);
     Route::get('/penilaianAll', [FilterController::class, 'getPenilaianAll'])->middleware(['auth.api']);
+    Route::get('/penilaianCpmk', [FilterController::class, 'getPenilaianCpmk'])->middleware(['auth.api']);
 
     /**
      * Route khusus authentifikasi

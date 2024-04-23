@@ -55,32 +55,7 @@ class EvaluasiCplHelper
     {
         $penilaian  = $this->evaluasiCpl->rekapNilai($filter);
 
-        $matakuliah  = DB::table('m_matakuliah')->select('*')->get();
-
-        $cpl  = DB::table('m_cpl')->select('*')->get();
-
-        $array = [];
-
-        foreach ($cpmk as $cpmks) {
-            // Memastikan array untuk setiap id_cpl_fk sudah ada
-            if (!isset($arrayCpmk[$cpmks->id_cpl_fk])) {
-                $arrayCpmk[$cpmks->id_cpl_fk] = [];
-            }   
-            // Menambahkan data cpmk ke array sesuai dengan id_cpl_fk-nya
-            $arrayCpmk[$cpmks->id_cpl_fk][] = $cpmks;
-        }
-
-        foreach($cpl as $key => $cpls)
-        {
-            if(isset($arrayCpmk[$cpls->id_cpl]))
-			{  
-                $cpl[$key]->cpmk = array_values($arrayCpmk[$cpls->id_cpl]);
-            }
-
-        }
-
-
-        return $matakuliah;
+        return $penilaian;
     }
 
 }

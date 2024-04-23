@@ -17,7 +17,6 @@ class EvaluasiCplResource extends JsonResource
         return [
             'nrp' => $this->nrp,
             'nama' => $this->nama,
-            'prodi' => $this->prodi,
         ];
     }
 }

@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\cplModel;
 use App\Models\CpmkModel;
-use App\Models\detailmkModel;
+use App\Models\SubCpmkModel;
 use Illuminate\Http\Request;
+use App\Models\detailmkModel;
 use App\Models\KurikulumModel;
 use App\Models\MataKuliahModel;
 use App\Models\PenilaianMkModel;
-use App\Models\SubCpmkModel;
+use Illuminate\Support\Facades\DB;
 
 class FilterController extends Controller
 {
@@ -81,11 +82,41 @@ class FilterController extends Controller
     public function getDetailMk(Request $request)
     {
         // dd("hello");
-        $listCpmk = detailmkModel::select('*', 'm_cpmk.*', 'm_cpl.kode_cpl','m_cpl.deskripsi_cpl')
+        $listCpmk = detailmkModel::select(
+            'm_detailmk.id_detailmk',  
+            'm_detailmk.id_mk_fk',  
+            'm_detailmk.id_cpl_fk',  
+            'm_detailmk.id_cpmk_fk',  
+            'm_detailmk.indikator_pencapaian',  
+            'm_detailmk.bobot_detailmk',  
+            'm_detailmk.pesan',  
+            'm_detailmk.status',  
+            'm_detailmk.is_nilai',  
+            'm_cpmk.kode_cpmk', 
+            'm_cpmk.deskripsi_cpmk', 
+            'm_cpl.kode_cpl',
+            'm_cpl.deskripsi_cpl',
+            DB::raw('COUNT(CASE WHEN m_subcpmk.available = 0 THEN m_subcpmk.id_subcpmk END) AS jumlah_belum_nilai')
+            )
+        ->leftJoin("m_subcpmk", "m_subcpmk.id_detailmk_fk", "=", "m_detailmk.id_detailmk")
         ->leftJoin("m_cpmk", "m_cpmk.id_cpmk", "=", "m_detailmk.id_cpmk_fk")
         ->leftJoin("m_cpl", "m_cpl.id_cpl", "=", "m_detailmk.id_cpl_fk")
-        ->where('id_mk_fk', '=', $request->id_matakuliah)
-        ->orderBy('id_detailmk', 'desc')
+        ->where('m_detailmk.id_mk_fk', '=', $request->id_matakuliah)
+        ->orderBy('m_detailmk.id_detailmk', 'ASC')
+        ->groupBy( 
+            'm_detailmk.id_detailmk',  
+            'm_detailmk.id_mk_fk',  
+            'm_detailmk.id_cpl_fk',  
+            'm_detailmk.id_cpmk_fk',
+            'm_detailmk.indikator_pencapaian',  
+            'm_detailmk.bobot_detailmk',  
+            'm_detailmk.pesan',  
+            'm_detailmk.status',  
+            'm_detailmk.is_nilai',  'm_cpmk.kode_cpmk', 
+            'm_cpmk.deskripsi_cpmk', 
+            'm_cpl.kode_cpl',
+            'm_cpl.deskripsi_cpl'
+        )
         ->get();
 
         return response()->json($listCpmk);
@@ -164,17 +195,77 @@ class FilterController extends Controller
     public function getPenilaianAll(Request $request)
     {
         // dd($request->id_subcpmk);
-        $listSubCpmk = PenilaianMkModel::select('*')
-        ->where('id_subcpmk', '=', $request->id_subcpmk)
-        ->where('id_mk_fk', '=', $request->id_mk_fk)
-        ->where('id_detailmk_fk', '=', $request->id_detailmk_fk)
-        ->orderBy('id_penilaian', 'desc')
-        ->get();
+        $listSubCpmk = PenilaianMkModel::select(
+            'm_subcpmk.nama_subcpmk',
+            'm_subcpmk.kode_subcpmk',
+            'm_penilaian.nrp',
+            'm_penilaian.nama',
+            'm_penilaian.partisipasi',
+            'm_penilaian.tugas',
+            'm_penilaian.presentasi',
+            'm_penilaian.tes_tulis',
+            'm_penilaian.tes_lisan',
+            'm_penilaian.tugas_kelompok',
+            'm_penilaian.total_nilai',
+
+            )
+        ->leftJoin('m_subcpmk', 'm_subcpmk.id_subcpmk', '=', 'm_penilaian.id_subcpmk_fk');
+        
+        if (isset($request->id_detailmk_fk) && !empty($request->id_detailmk_fk)) {
+            $listSubCpmk->where('m_penilaian.id_detailmk_fk', '=', $request->id_detailmk_fk);
+        }
+        if (isset($request->id_mk_fk) && !empty($request->id_mk_fk)) {
+            $listSubCpmk->where('m_penilaian.id_mk_fk', '=', $request->id_mk_fk);
+        }
+        if (isset($request->nrp) && !empty($request->nrp)) {
+            $listSubCpmk->where('m_penilaian.nrp', '=', $request->nrp);
+        }
+
+        $listSubCpmk = $listSubCpmk->orderBy('m_penilaian.id_penilaian', 'ASC')->get();
+    
 
         return response()->json($listSubCpmk);
     }
 
+    /**
+         * Mengambil Semua penilaian pada cpmk mahasiswa 
+         *
+        * @return \Illuminate\Http\Response
+    */
+    public function getPenilaianCpmk(Request $request)
+    {
+        $listNilaiCpmk = DB::table('t_totalnilai_cpmk')
+        ->select(
+            't_totalnilai_cpmk.id_mk_fk',
+            't_totalnilai_cpmk.id_detailmk_fk',
+            't_totalnilai_cpmk.nrp',
+            't_totalnilai_cpmk.nama',
+            't_totalnilai_cpmk.total_nilai',
+            'm_matakuliah.nama_matakuliah' , 
+            'm_cpmk.deskripsi_cpmk', 
+            'm_cpmk.kode_cpmk', 
+            'm_cpl.deskripsi_cpl',
+            'm_cpl.kode_cpl',
+            )
+        ->leftJoin('m_matakuliah', 'm_matakuliah.id_matakuliah', '=', 't_totalnilai_cpmk.id_mk_fk')
+        ->leftJoin('m_detailmk', 't_totalnilai_cpmk.id_mk_fk', '=', 'm_detailmk.id_detailmk')
+        ->leftJoin('m_cpl', 'm_cpl.id_cpl', '=', 'm_detailmk.id_cpl_fk')
+        ->leftJoin('m_cpmk', 'm_cpmk.id_cpmk', '=', 'm_detailmk.id_cpmk_fk');
 
+        if (isset($request->nrp) && !empty($request->nrp)) {
+            $listNilaiCpmk->where('t_totalnilai_cpmk.nrp', '=', $request->nrp);
+        }
+        if (isset($request->id_mk_fk) && !empty($request->id_mk_fk)) {
+            $listNilaiCpmk->where('t_totalnilai_cpmk.id_mk_fk', '=', $request->id_mk_fk);
+        }
+        if (isset($request->id_detailmk_fk) && !empty($request->id_detailmk_fk)) {
+            $listNilaiCpmk->where('t_totalnilai_cpmk.id_detailmk_fk', '=', $request->id_detailmk_fk);
+        }
+
+        $listNilaiCpmk = $listNilaiCpmk->orderBy('t_totalnilai_cpmk.nrp', 'ASC')->get();
+        
+        return response()->json($listNilaiCpmk);
+    }
 
 
 }
