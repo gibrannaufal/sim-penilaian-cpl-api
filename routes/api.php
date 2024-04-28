@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\Api\ApiStikiController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CpmkController;
-use App\Http\Controllers\Api\EvaluasiCplController;
+use App\Http\Controllers\Api\SubCpmkController;
+use App\Http\Controllers\Api\ApiStikiController;
 use App\Http\Controllers\Api\KurikulumController;
 use App\Http\Controllers\Api\MataKuliahController;
-use App\Http\Controllers\Api\PenilaianMkController;
-use App\Http\Controllers\Api\SubCpmkController;
 use App\Http\Controllers\Api\ValidasiMkController;
-use App\Http\Controllers\FilterController;
+use App\Http\Controllers\Api\EvaluasiCplController;
+use App\Http\Controllers\Api\PenilaianMkController;
+use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\ValidasiKurikulumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,9 @@ Route::prefix('v1')->group(function () {
     Route::post('/subCpmk/penilaian/diterima', [SubCpmkController::class, 'diterima'])->middleware(['auth.api']);
     Route::post('/subCpmk/penilaian/ditolak', [SubCpmkController::class, 'ditolak'])->middleware(['auth.api']);
 
+    //validasi kurikulum
+    Route::put('/validasiKurikulum/diterima', [ValidasiKurikulumController::class, 'diterima'])->middleware(['auth.api']);
+    Route::put('/validasiKurikulum/ditolak', [ValidasiKurikulumController::class, 'ditolak'])->middleware(['auth.api']);
 
 
     //validasi mk
@@ -91,6 +95,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/subCpmkById', [FilterController::class, 'getSubCpmkById'])->middleware(['auth.api']);
     Route::get('/penilaianAll', [FilterController::class, 'getPenilaianAll'])->middleware(['auth.api']);
     Route::get('/penilaianCpmk', [FilterController::class, 'getPenilaianCpmk'])->middleware(['auth.api']);
+    Route::get('/CplByKurikulum', [FilterController::class, 'getCplByKurikulum'])->middleware(['auth.api']);
 
     /**
      * Route khusus authentifikasi

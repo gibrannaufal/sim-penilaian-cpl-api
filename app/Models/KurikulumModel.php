@@ -38,7 +38,9 @@ class KurikulumModel extends Model
         'nama_kurikulum',
         'tahun',
         'periode',
-        'profil_lulusan'
+        'profil_lulusan',
+        'status',
+        'pesan'
     ];
 
     /**

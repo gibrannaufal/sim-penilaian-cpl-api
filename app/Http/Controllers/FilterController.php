@@ -267,5 +267,18 @@ class FilterController extends Controller
         return response()->json($listNilaiCpmk);
     }
 
+    /**
+         * Mengambil cpl by kurikulum
+         *
+        * @return \Illuminate\Http\Response
+    */
+    public function getCplByKurikulum(Request $request)
+    {
+        $cpl = cplModel::select('*')->where('m_cpl.id_kurikulum_fk', '=', $request->id_kurikulum_fk);
+        $cpl = $cpl->orderBy('id_cpl', 'ASC')->get();
+        return response()->json($cpl);
+
+    }
+
 
 }
