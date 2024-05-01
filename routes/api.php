@@ -79,6 +79,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/evaluasiCpl', [EvaluasiCplController::class, 'index'])->middleware(['auth.api']);
     Route::get('/evaluasiCpl/rekap', [EvaluasiCplController::class, 'rekap'])->middleware(['auth.api']);
 
+    // rekap nilai
+    Route::get('/rekapNilai', [EvaluasiCplController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/rekapNilai/rekap', [EvaluasiCplController::class, 'rekap'])->middleware(['auth.api']);
+
 
     // api stiki
     Route::get('/getMatkul', [ApiStikiController::class, 'getMatkul'])->middleware(['auth.api']);
