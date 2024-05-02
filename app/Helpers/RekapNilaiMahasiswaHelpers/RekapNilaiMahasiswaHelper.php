@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\EvaluasiCplHelpers;
+namespace App\Helpers\RekapNilaiMahasiswaHelpers;
 
 use Throwable;
 use App\Models\CpmkModel;
@@ -55,6 +55,26 @@ class RekapNilaiMahasiswaHelper
     public function rekapNilai(array $filter): object
     {
         $penilaian  = $this->rekapNilai->rekapNilai($filter);
+
+        return $penilaian;
+    }
+
+    /**
+     * get by nrp 
+     * Mengambil data  rekap nilai dari tabel m_penilaian  menggunakan paginasi
+     *
+     * @author Muhammad Naufal Gibran naufalgibran961@gmail.com
+     *
+     * @param  array $filter
+     * $filter['nama_mahasiswa'] = string
+     * @param integer $itemPerPage jumlah data yang tampil dalam 1 halaman, kosongi jika ingin menampilkan semua data
+     * @param string $sort nama kolom untuk melakukan sorting mysql beserta tipenya DESC / ASC
+     *
+     * @return object
+     */
+    public function rekapNilaiMahasiswa(array $filter, int $itemPerPage = 0, string $sort = ''): object
+    {
+        $penilaian  = $this->rekapNilai->rekapNilaiMahasiswa($filter, $itemPerPage, $sort);
 
         return $penilaian;
     }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MataKuliahController;
 use App\Http\Controllers\Api\ValidasiMkController;
 use App\Http\Controllers\Api\EvaluasiCplController;
 use App\Http\Controllers\Api\PenilaianMkController;
+use App\Http\Controllers\api\RekapNilaiMahasiswaController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\ValidasiKurikulumController;
 
@@ -80,8 +81,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/evaluasiCpl/rekap', [EvaluasiCplController::class, 'rekap'])->middleware(['auth.api']);
 
     // rekap nilai
-    Route::get('/rekapNilai', [EvaluasiCplController::class, 'index'])->middleware(['auth.api']);
-    Route::get('/rekapNilai/rekap', [EvaluasiCplController::class, 'rekap'])->middleware(['auth.api']);
+    Route::get('/rekapNilai', [RekapNilaiMahasiswaController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/rekapNilai/rekap', [RekapNilaiMahasiswaController::class, 'rekap'])->middleware(['auth.api']);
+
+    Route::get('/rekapNilai/mahasiswa', [RekapNilaiMahasiswaController::class, 'rekapMahasiswa'])->middleware(['auth.api']);
 
 
     // api stiki
