@@ -280,5 +280,19 @@ class FilterController extends Controller
 
     }
 
+     /**
+         * Mengambil Semua roles pada user_roles  
+         *
+        * @return \Illuminate\Http\Response
+    */
+    public function getRoles(Request $request)
+    {
+        $list = DB::table('user_roles')
+        ->select('*');
+
+        $list = $list->orderBy('user_roles.id', 'ASC')->get();
+        
+        return response()->json($list);
+    }
 
 }

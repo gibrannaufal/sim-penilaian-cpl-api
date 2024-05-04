@@ -43,7 +43,11 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'roles',
+        'user_roles_id',
+        'alamat',
+        'jenis_kelamin',
+        'prodi',
+        'nrp',
     ];
 
     /**
@@ -90,4 +94,62 @@ class User extends Authenticatable implements JWTSubject
             ]
         ];
     }
+
+    /**
+         * Relasi ke tabel child m_cpl
+         *
+         * @return void
+    */
+    public function userRoles()
+    {
+        return $this->hasOne(UserRolesModel::class, 'id', 'user_roles_id');
+    }
+
+
+    public function getAll(array $filter, int $itemPerPage = 0, string $sort = ''): object
+    {
+        $mk = $this->query();
+
+        if (!empty($filter['nama'])) {
+            $mk->where('name', 'LIKE', '%'.$filter['nama'].'%');
+        }
+        if (!empty($filter['nrp'])) {
+            $mk->where('nrp', 'LIKE', '%'.$filter['nrp'].'%');
+        }
+
+        $sort = $sort ?: 'id DESC';
+        $mk->orderByRaw($sort);
+        $itemPerPage = $itemPerPage > 0 ? $itemPerPage : false;
+        
+        return $mk->paginate($itemPerPage)->appends('sort', $sort);
+    }
+
+    public function drop(int $id)
+    {
+        return $this->find($id)->delete();
+    }
+
+    public function edit(array $payload, int $id)
+    {
+        return $this->find($id)->update($payload);
+    }
+    
+    public function getById(int $id)
+    {
+        return $this->find($id);
+    }
+
+    public function store(array $payload)
+    {
+        return $this->create($payload);
+    }
+
+    // rubah roles jika roles sudah dihapus
+    public function editRoles(array $payload, int $id)
+    {
+        return $this->where('user_roles_id', $id)->update($payload);
+    }
+    
+
+
 }

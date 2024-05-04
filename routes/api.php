@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\PenilaianMkController;
 use App\Http\Controllers\api\RekapNilaiMahasiswaController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\ValidasiKurikulumController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +84,6 @@ Route::prefix('v1')->group(function () {
     // rekap nilai
     Route::get('/rekapNilai', [RekapNilaiMahasiswaController::class, 'index'])->middleware(['auth.api']);
     Route::get('/rekapNilai/rekap', [RekapNilaiMahasiswaController::class, 'rekap'])->middleware(['auth.api']);
-
     Route::get('/rekapNilai/mahasiswa', [RekapNilaiMahasiswaController::class, 'rekapMahasiswa'])->middleware(['auth.api']);
 
 
@@ -103,6 +103,23 @@ Route::prefix('v1')->group(function () {
     Route::get('/penilaianAll', [FilterController::class, 'getPenilaianAll'])->middleware(['auth.api']);
     Route::get('/penilaianCpmk', [FilterController::class, 'getPenilaianCpmk'])->middleware(['auth.api']);
     Route::get('/CplByKurikulum', [FilterController::class, 'getCplByKurikulum'])->middleware(['auth.api']);
+    Route::get('/getRoles', [FilterController::class, 'getRoles'])->middleware(['auth.api']);
+
+
+    // users
+    Route::get('/users', [UserController::class, 'getUsers'])->middleware(['auth.api']);
+    Route::post('/users', [UserController::class, 'store'])->middleware(['auth.api']);
+    Route::get('/users/{id}', [UserController::class, 'show'])->middleware(['auth.api']);
+    Route::put('/users', [UserController::class, 'update'])->middleware(['auth.api']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware(['auth.api']);
+
+    // roles
+    Route::get('/roles', [UserController::class, 'getRolesAll'])->middleware(['auth.api']);
+    Route::post('/roles', [UserController::class, 'storeRoles'])->middleware(['auth.api']);
+    Route::get('/roles/{id}', [UserController::class, 'showRoles'])->middleware(['auth.api']);
+    Route::put('/roles', [UserController::class, 'updateRoles'])->middleware(['auth.api']);
+    Route::delete('/roles/{id}', [UserController::class, 'destroyRoles'])->middleware(['auth.api']);
+    
 
     /**
      * Route khusus authentifikasi
