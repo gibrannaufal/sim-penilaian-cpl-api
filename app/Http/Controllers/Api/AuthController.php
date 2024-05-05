@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\AuthRequest;
 use App\Helpers\AuthHelpers\AuthHelper;
+use App\Http\Resources\User\UserResource;
 
 class AuthController extends Controller
 {
@@ -70,7 +71,9 @@ class AuthController extends Controller
     public function profile()
     {
         // dd("hello");
-        return response()->success(auth()->user());
+        // return response()->success(auth()->user());
+        return response()->success(new UserResource(auth()->user()));
+
     }
 
      /**

@@ -165,7 +165,7 @@ class SubCpmkModel extends Model
         $kata = '';
 
         if (isset($this->partisipasi) && $this->partisipasi >= 1) {
-            $kata .= 'Partisipasi';
+            $kata .= 'Partisipasi'.'('. $this->partisipasi . ')';
         }
 
         if (isset($this->tugas) && $this->tugas >= 1) {
@@ -173,7 +173,7 @@ class SubCpmkModel extends Model
             if ($kata !== '') {
                 $kata .= ', ';
             }
-            $kata .= 'Tugas/Quiz';
+            $kata .= 'Tugas/Quiz'.'('. $this->tugas . ')';
         }
 
         if (isset($this->presentasi) && $this->presentasi >= 1) {
@@ -181,7 +181,7 @@ class SubCpmkModel extends Model
             if ($kata !== '') {
                 $kata .= ', ';
             }
-            $kata .= 'Presentasi';
+            $kata .= 'Presentasi'.'('. $this->presentasi . ')' ;
         }
 
         if (isset($this->tes_tulis) && $this->tes_tulis >= 1) {
@@ -189,7 +189,7 @@ class SubCpmkModel extends Model
             if ($kata !== '') {
                 $kata .= ', ';
             }
-            $kata .= 'Tes Tulis';
+            $kata .= 'Tes Tulis'.'('. $this->tes_tulis . ')';
         }
 
         if (isset($this->tes_lisan) && $this->tes_lisan >= 1) {
@@ -197,13 +197,13 @@ class SubCpmkModel extends Model
             if ($kata !== '') {
                 $kata .= ', ';
             }
-            $kata .= 'Tes Lisan';
+            $kata .= 'Tes Lisan'.'('. $this->tes_lisan . ')';
         }
 
         if (isset($this->tugas_kelompok) && $this->tugas_kelompok === 1) {
             // Jika sudah ada kata sebelumnya, tambahkan koma
             if ($kata !== '') {
-                $kata .= ', ';
+                $kata .= ', '.'('. $this->tugas_kelompok . ')';
             }
             $kata .= 'Tugas Kelompok / Proyek';
         }
