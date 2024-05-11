@@ -77,6 +77,31 @@ class SubCpmkController extends Controller
     }
 
     /**
+     * Merubah status dari sub-cpmk menjadi revisi
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */ 
+    public function updateStatus(Request $request)
+    {
+        $payload = $request->only([
+            'status_penilaian',
+            'id_mk_fk',
+            'id_detailmk_fk',
+            'id_subcpmk',
+        ]);
+
+        $subCpmk = $this->SubCpmk->updateStatus($payload);
+
+        if (!$subCpmk['status']) {
+            return response()->failed($subCpmk['error']);
+        }
+
+        return response()->success('SUB-CPMK berhasil dirubah');
+    }
+
+
+    /**
      * Merubah sub-cpmk supaya tidak bisa mengupdate nilai.
      *
      * @param  \Illuminate\Http\Request  $request

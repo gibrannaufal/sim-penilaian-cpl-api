@@ -245,9 +245,26 @@ class SubCpmkModel extends Model
             ->where('id_mk_fk', $payload['id_mk_fk'])
             ->where('id_detailmk_fk', $payload['id_detailmk_fk'])
             ->where('id_subcpmk', $payload['id_subcpmk'])
-            ->update(['available' => $payload['available']]);
+            ->update([
+                'available' => $payload['available'],
+                'status_penilaian' => 'diterima',
+                'pesan_penilaian' => '',
+            ]);
 
     }
+
+     // untuk update status_penilaian / status berkas penilaian 
+     public function updateStatus(array $payload)
+     {
+         return $this
+             ->where('id_mk_fk', $payload['id_mk_fk'])
+             ->where('id_detailmk_fk', $payload['id_detailmk_fk'])
+             ->where('id_subcpmk', $payload['id_subcpmk'])
+             ->update([
+                 'status_penilaian' => 'revisi',
+             ]);
+ 
+     }
 
      // untuk rubah status penilaian menjadi diterima 
      public function diterima(array $payload)

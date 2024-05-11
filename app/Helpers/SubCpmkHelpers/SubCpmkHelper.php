@@ -131,6 +131,33 @@ class SubCpmkHelper
     }
 
     /**
+         * method untuk merubah status berkas / status_penilaian sub_cpmk
+         *
+         * @author Muhammad Naufal Gibran <naufalgibran961@gmail.com>
+         *
+         * @param array 
+         *
+         * @return array
+     */
+    public function updateStatus(array $payload): array
+    {
+        try {
+            $subCpmk  =  $this->SubCpmkModel->updateStatus($payload);
+            
+            return [
+                'status' => true,
+                'data' => $subCpmk
+            ];
+        } catch (Throwable $th) {
+
+            return [
+                'status' => false,
+                'error' => $th->getMessage()
+            ];
+        }
+    }
+
+    /**
          * method untuk merubah status penilaian menjadi diterima
          *
          * @author Muhammad Naufal Gibran <naufalgibran961@gmail.com>
