@@ -48,4 +48,15 @@ class ApiStikiController extends Controller
         }
     }
 
+    public function getAllMahasiswa(Request $request)
+    {
+        $data = $this->apiStikiHelpers->getAllMahasiswa();
+
+        if ($data !== null) {
+            return response()->json($data);
+        } else {
+            return response()->json(['error' => 'Failed to fetch data'], 500);
+        }
+    }
+
 }

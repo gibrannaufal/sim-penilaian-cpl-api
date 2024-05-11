@@ -26,22 +26,26 @@ class EvaluasiCplModel extends Model
      */
     protected $primaryKey = 'id_totalnilai';
 
-    public function getAll(array $filter, int $itemPerPage = 0, string $sort = ''): object
+    public function totalCplDidapat(array $filter): object
     {
-        $penilaian = $this->query()->selectRaw('nrp, nama')->groupBy('nrp', 'nama');
+        $penilaian = $this->query()
+        ->select(
+            't_totalnilai_cpmk.nrp', 
+            't_totalnilai_cpmk.nama', 
+            'm_detailmk.id_cpl_fk',
+            DB::raw('SUM(m_detailmk.bobot_detailmk) AS total_cpl_didapat') 
 
-        // dd($penilaian);
+        )
+        ->leftJoin('m_detailmk', 't_totalnilai_cpmk.id_detailmk_fk', '=', 'm_detailmk.id_detailmk');
         
         if (!empty($filter['nama_mahasiswa'])) {
             $penilaian->where('nama', 'LIKE', '%'.$filter['nama_mahasiswa'].'%');
         }
+        if (!empty($filter['nrp'])) {
+            $penilaian->where('nrp', 'LIKE', '%'.$filter['nrp'].'%');
+        }
 
-        $sort = $sort ?: 'id_totalnilai DESC';
-        $penilaian->orderByRaw($sort);
-        
-        $itemPerPage = $itemPerPage > 0 ? $itemPerPage : false;
-        
-        return $penilaian->paginate($itemPerPage)->appends('sort', $sort);
+        return $penilaian->groupBy('t_totalnilai_cpmk.nrp','m_detailmk.id_cpl_fk')->get();
     }
 
     public function rekapNilai(array $filter): object

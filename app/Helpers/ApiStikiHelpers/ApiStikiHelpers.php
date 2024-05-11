@@ -146,4 +146,18 @@ class ApiStikiHelpers
 
 
     }
+
+    public function getAllMahasiswa()
+    {
+        $output = $this->zuko->connect();
+        $token = $output['data']['session_token'];
+        
+        $par = [];
+        
+        $mahasiswa = $this->zuko->get_mhs_jumlah_aktif_by_program($token, $par);    
+
+        return $mahasiswa;
+
+
+    }
 }

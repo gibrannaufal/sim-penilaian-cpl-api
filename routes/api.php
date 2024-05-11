@@ -80,6 +80,8 @@ Route::prefix('v1')->group(function () {
     //evaluasi cpl
     Route::get('/evaluasiCpl', [EvaluasiCplController::class, 'index'])->middleware(['auth.api']);
     Route::get('/evaluasiCpl/rekap', [EvaluasiCplController::class, 'rekap'])->middleware(['auth.api']);
+    Route::get('/getCplMahasiswa', [EvaluasiCplController::class, 'getCplMahasiswa'])->middleware(['auth.api']);
+
 
     // rekap nilai
     Route::get('/rekapNilai', [RekapNilaiMahasiswaController::class, 'index'])->middleware(['auth.api']);
@@ -90,6 +92,7 @@ Route::prefix('v1')->group(function () {
     // api stiki
     Route::get('/getMatkul', [ApiStikiController::class, 'getMatkul'])->middleware(['auth.api']);
     Route::get('/getListMahasiswa', [ApiStikiController::class, 'getListMahasiswa'])->middleware(['auth.api']);
+    Route::get('/getAllMahasiswa', [ApiStikiController::class, 'getAllMahasiswa'])->middleware(['auth.api']);
 
     //filter
     Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);
