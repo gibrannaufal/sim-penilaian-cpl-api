@@ -23,6 +23,7 @@ class FilterController extends Controller
     {
         // dd("coba");
         $listKurikulum = KurikulumModel::select('id_kurikulum', 'kode_kurikulum', 'nama_kurikulum')
+        ->where('m_kurikulum.status', '=', 'diterima')
         ->orderBy('id_kurikulum', 'desc')
         ->get();
 

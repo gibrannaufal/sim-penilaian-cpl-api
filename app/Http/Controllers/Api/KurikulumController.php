@@ -51,13 +51,15 @@ class KurikulumController extends Controller
                 'required',
                 'integer',
                 rules::unique('m_kurikulum')->where(function ($query) use ($request) {
-                    return $query->where('tahun', $request->tahun);
+                    return $query
+                        ->where('tahun', $request->tahun)
+                        ->where('periode', $request->periode);
                 }),
             ],
             'periode' => 'required|string',
             'profil_lulusan' => 'required|string',
         ], [
-            'tahun.unique' => 'Tahun sudah ada di database.',
+            'tahun.unique' => 'Kombinasi tahun dan periode sudah ada di database.',
             'kode_kurikulum.required' => 'Kode kurikulum harus di isi.',
             'nama_kurikulum.required' => 'Nama kurikulum harus di isi.',
             'tahun.required' => 'Tahun harus di isi.',
@@ -126,7 +128,7 @@ class KurikulumController extends Controller
             'nama_kurikulum.required' => 'Nama kurikulum harus di isi.',
             'tahun.required' => 'Tahun harus di isi.',
             'tahun.integer' => 'Tahun harus berbentuk angka.',
-            'periode.required' => 'speriode harus di isi.',
+            'periode.required' => 'periode harus di isi.',
             'profil_lulusan.required' => 'profil lulusan harus di isi.',
         ]);
         
@@ -137,6 +139,7 @@ class KurikulumController extends Controller
             'periode',
             'profil_lulusan',
             'cpl',
+            'status',
             'id_kurikulum',
             'cpl_deleted'
         ]);
