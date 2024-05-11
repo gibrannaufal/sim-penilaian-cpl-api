@@ -102,6 +102,7 @@ class MataKuliahController extends Controller
             'uuid_api',
             'prodi',
             'kelas',
+            'status',
             'mk_detail',
             'mk_detail_deleted'
         ]);

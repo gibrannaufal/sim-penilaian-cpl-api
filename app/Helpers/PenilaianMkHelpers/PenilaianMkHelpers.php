@@ -40,7 +40,7 @@ class PenilaianMkHelpers
      */
     public function getAll(array $filter, int $itemPerPage = 0, string $sort = ''): object
     {
-        return $this->mataKuliah->getAll($filter, $itemPerPage, $sort);
+        return $this->mataKuliah->getAllMk($filter, $itemPerPage, $sort);
     }
 
          /**

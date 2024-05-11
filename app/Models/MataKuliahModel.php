@@ -85,6 +85,24 @@ class MataKuliahModel extends Model
         return $mk->paginate($itemPerPage)->appends('sort', $sort);
     }
 
+    // untuk konsumsi api lain (sub-cpmk , penilaian)
+    public function getAllMk(array $filter, int $itemPerPage = 0, string $sort = ''): object
+    {
+        $mk = $this->query()
+        ->where('status', '=', 'diterima');
+
+        if (!empty($filter['nama_matakuliah'])) {
+            $mk->where('nama_matakuliah', 'LIKE', '%'.$filter['nama_mk'].'%');
+        }
+
+        $sort = $sort ?: 'id_matakuliah DESC';
+        $mk->orderByRaw($sort);
+        $itemPerPage = $itemPerPage > 0 ? $itemPerPage : false;
+        
+        return $mk->paginate($itemPerPage)->appends('sort', $sort);
+    }
+
+
     public function drop(int $id)
     {
         return $this->find($id)->delete();

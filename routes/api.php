@@ -53,6 +53,7 @@ Route::prefix('v1')->group(function () {
     
     // Sub-CPMK
     Route::get('/subCpmk', [SubCpmkController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/subCpmk/mk', [SubCpmkController::class, 'getMkSubCpmk'])->middleware(['auth.api']);
     Route::get('/subCpmk/{id}', [SubCpmkController::class, 'show'])->middleware(['auth.api']);
     Route::post('/subCpmk', [SubCpmkController::class, 'store'])->middleware(['auth.api']);
     Route::put('/subCpmk', [SubCpmkController::class, 'update'])->middleware(['auth.api']);

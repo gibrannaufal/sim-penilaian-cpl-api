@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\SubCpmkHelpers\SubCpmkHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\SubCpmk\SubCpmkCollection;
+use App\Helpers\SubCpmkHelpers\SubCpmkHelper;
 use App\Http\Resources\SubCpmk\SubCpmkResource;
+use App\Http\Resources\SubCpmk\SubCpmkCollection;
+use App\Http\Resources\MataKuliah\MataKuliahCollection;
 
 class SubCpmkController extends Controller
 {
@@ -33,6 +34,20 @@ class SubCpmkController extends Controller
         $listCpmk = $this->SubCpmk->getAll($filter, $request->itemperpage ?? 0, $request->sort ?? '');
 
         return response()->success(new SubCpmkCollection($listCpmk));
+        
+    }    
+
+    /**
+     * Menampilkan MK yang diterima pada sub-cpmk
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMkSubCpmk(Request $request)
+    {
+        $filter = ['nama_mk' => $request->nama_mk ?? ''];
+        $listMk = $this->SubCpmk->getAllMk($filter, $request->itemperpage ?? 0, $request->sort ?? '');
+
+        return response()->success(new MataKuliahCollection($listMk));
         
     }    
 
