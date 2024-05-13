@@ -24,15 +24,18 @@ class EvaluasiCplController extends Controller
     public function index(Request $request)
     {
         // dd("coba");
-            
-        $filter = [
-            'nama_mahasiswa' => $request->nama_mahasiswa ?? '',
-            'kurikulum' => $request->kurikulum ?? '',
+        try {
+            $filter = [
+                'nama_mahasiswa' => $request->nama_mahasiswa ?? '',
+                'kurikulum' => $request->kurikulum ?? '',
+            ];
 
-        ];
-        $listMahasiswa = $this->evaluasiCpl->getAll($filter);
+            $listMahasiswa = $this->evaluasiCpl->getAll($filter);
 
-        return response()->success($listMahasiswa);
+            return response()->success($listMahasiswa);
+        } catch (\Exception $e) {
+            return response()->error($e->getMessage());
+        }
     }
 
     /**
