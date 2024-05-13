@@ -221,26 +221,6 @@ class EvaluasiCplHelper
         }
     }
 
-
-    /**
-     * Mengambil data  rekap nilai dari tabel m_penilaian
-     *
-     * @author Muhammad Naufal Gibran naufalgibran961@gmail.com
-     *
-     * @param  array $filter
-     * $filter['nama_mahasiswa'] = string
-     * @param integer $itemPerPage jumlah data yang tampil dalam 1 halaman, kosongi jika ingin menampilkan semua data
-     * @param string $sort nama kolom untuk melakukan sorting mysql beserta tipenya DESC / ASC
-     *
-     * @return object
-     */
-    public function rekapNilai(array $filter): object
-    {
-        $penilaian  = $this->evaluasiCpl->rekapNilai($filter);
-
-        return $penilaian;
-    }
-
     /**
      * Mengambil data  rekap cpl 
      *
@@ -249,58 +229,125 @@ class EvaluasiCplHelper
      * @param  array $filter
      * @return object
      */
-    public function cplMahasiswa(array $filter): object
+    public function cplMahasiswa(array $filter): array
     {
-        $totalCplDidapat  = $this->evaluasiCpl->totalCplDidapat($filter);
+        try {
+            /**
+             * Mengambil data list cpl untuk thead 
+             *
+             */
 
-        $listMk = MataKuliahModel::select(
-            'm_matakuliah.id_matakuliah',
-            'm_matakuliah.id_kurikulum_fk',
-        );
+            //ambil kurikulum
+            $kurikulum  = KurikulumModel::select(
+                'm_kurikulum.id_kurikulum',
+                'm_kurikulum.nama_kurikulum',
+            )->where('m_kurikulum.status', '=', 'diterima');
 
-        if (isset($filter['kurikulum']) && !empty($filter['kurikulum'])) {
-            $listMk->where('m_matakuliah.id_kurikulum_fk', '=', $filter['kurikulum']);
-        }
-
-        $listMk = $listMk->orderBy('id_matakuliah', 'asc')->get();
-
-        $listMkArray = [];
-        foreach ($listMk as $item) {
-            $listMkArray[$item->id_matakuliah] = $item->id_matakuliah;
-        }
-
-        // ambil dan hitung jumlah cpl all nya 
-        $listDetailMk = detailmkModel::select(
-            'm_cpl.kode_cpl',
-            'm_detailmk.id_cpl_fk',
-            detailmkModel::raw('SUM(m_detailmk.bobot_detailmk) AS total_cpl')
-        )
-            ->leftJoin('m_cpl', 'm_cpl.id_cpl', '=', 'm_detailmk.id_cpl_fk')
-            ->whereIn('m_detailmk.id_mk_fk', array_keys($listMkArray));
-
-        $listDetailMk = $listDetailMk->orderBy('id_cpl_fk', 'asc')->groupBy('m_detailmk.id_cpl_fk')->get();
-
-        $arrListDetail  = [];
-        $arrListKodeCpl = [];
-
-        foreach ($listDetailMk as $key => $value) {
-            $arrListDetail[$value['id_cpl_fk']] = $value['total_cpl'];
-        }
-        foreach ($listDetailMk as $key => $value) {
-            $arrListKodeCpl[$value['id_cpl_fk']] = $value['kode_cpl'];
-        }
-
-        // arr final
-        foreach ($totalCplDidapat as $key => $val) {
-            if (isset($arrListDetail[$val['id_cpl_fk']])) {
-                $totalCplDidapat[$key]['total_cpl_all'] = $arrListDetail[$val['id_cpl_fk']];
+            if (isset($filter['kurikulum']) && !empty($filter['kurikulum'])) {
+                $kurikulum->where('m_kurikulum.id_kurikulum', '=', $filter['kurikulum']);
             }
-            if (isset($arrListKodeCpl[$val['id_cpl_fk']])) {
-                $totalCplDidapat[$key]['kode_cpl'] = $arrListKodeCpl[$val['id_cpl_fk']];
+
+            $kurikulum = $kurikulum->orderBy('id_kurikulum', 'desc')->first();
+
+            if (!$kurikulum) {
+                throw new \Exception('Kurikulum tidak ditemukan.');
             }
+
+            // ambil matakuliah di kurikulum tertentu
+            $listMk = MataKuliahModel::select(
+                'm_matakuliah.id_matakuliah',
+                'm_matakuliah.id_kurikulum_fk',
+            )
+            ->where('m_matakuliah.id_kurikulum_fk', '=', $kurikulum['id_kurikulum']);
+
+            $listMk = $listMk->orderBy('id_matakuliah', 'asc')->get();
+
+
+            if ($listMk->isEmpty()) {
+                throw new \Exception('Tidak ada mata kuliah yang ditemukan untuk kurikulum ini.');
+            }
+
+            // cari detail mk yang memiliki id_mk_fk diatas 
+            $arrListMk  = [];
+            foreach ($listMk as $key => $value) {
+                $arrListMk[$value['id_matakuliah']] = $value['id_matakuliah'];
+            }
+
+            $listCpl = detailmkModel::select(
+                'm_detailmk.id_cpl_fk',
+                detailmkModel::raw('SUM(m_detailmk.bobot_detailmk) AS total_cpl')
+            )
+            ->whereIn('m_detailmk.id_mk_fk', array_values($arrListMk));
+
+            $listCpl = $listCpl->orderBy('id_cpl_fk', 'asc')->groupBy('m_detailmk.id_cpl_fk')->get();
+            
+            if ($listCpl->isEmpty()) {
+                throw new \Exception('Tidak ada cpl yang ditemukan untuk kurikulum ini.');
+            }
+
+            // ambil nama cpl nya
+
+            $arrListCpl  = [];
+            foreach ($listCpl as $key => $value) {
+                $arrListCpl[$value['id_cpl_fk']] = $value['total_cpl'];
+            }
+
+             /**
+             * end
+             */
+            
+              /**
+             * Mengambil data list nilai mahasiswa 
+             *
+             */
+
+             $listPenilaian = DB::table('t_totalnilai_cpmk')
+             ->select(
+                't_totalnilai_cpmk.nrp',
+                't_totalnilai_cpmk.nama',
+                DB::raw('ROUND(SUM(t_totalnilai_cpmk.total_nilai), 2) AS total_skor') ,
+                'm_cpl.kode_cpl',
+                'm_cpl.id_cpl',
+            )
+            ->where('t_totalnilai_cpmk.nrp', '=', $filter['nrp'])
+            ->whereIn('m_cpl.id_cpl', array_keys($arrListCpl))
+            ->join('m_detailmk', 'm_detailmk.id_detailmk', '=', 't_totalnilai_cpmk.id_detailmk_fk')
+            ->join('m_cpl', 'm_cpl.id_cpl', '=', 'm_detailmk.id_cpl_fk');
+
+            if (isset($filter['kode_cpl']) && !empty($filter['kode_cpl'])) {
+                $listPenilaian->where('m_cpl.kode_cpl', '=', $filter['kode_cpl']);
+            }
+             
+            $listPenilaian = $listPenilaian->orderBy('nrp', 'asc')->groupBy('m_cpl.id_cpl')->get();
+            
+            if ($listPenilaian->isEmpty()) {
+                throw new \Exception('Tidak ada nilai yang ditemukan untuk kurikulum ini.');
+            }
+
+            $arrListCplMahasiswa = [];
+            foreach ($listPenilaian as $key => $value) {
+                if($arrListCpl[$value->id_cpl])
+                {
+                    $arrListCplMahasiswa[] = [
+                        'kode_cpl' => $value->kode_cpl,
+                        'total_skor' => $value->total_skor,
+                        'total_capaian_lulusan' => round(($value->total_skor / $arrListCpl[$value->id_cpl]) * 100, 2),
+                        'total_nilai' => $arrListCpl[$value->id_cpl],
+                    ];
+                }
+            }
+
+        
+            // rubah menjadi array bukan object
+          
+            return [
+                'listPenilaian' => $arrListCplMahasiswa ,
+
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error' => $e->getMessage(),
+            ];
         }
-
-
-        return $totalCplDidapat;
     }
 }
