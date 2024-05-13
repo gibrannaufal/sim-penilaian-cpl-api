@@ -26,7 +26,9 @@ class RekapNilaiMahasiswaModel extends Model
 
     public function getAll(array $filter, int $itemPerPage = 0, string $sort = ''): object
     {
-        $penilaian = $this->query()->selectRaw('nrp, nama')->groupBy('nrp', 'nama');
+        $penilaian = $this->query()
+        ->selectRaw('nrp, nama, ROUND(SUM(t_totalnilai_cpmk.total_nilai), 2) AS total_nilai')
+        ->groupBy('nrp', 'nama')->where('id_mk_fk', '=', $filter['id_mk_fk']);
 
         // dd($penilaian);
         

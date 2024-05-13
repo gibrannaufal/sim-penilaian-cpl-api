@@ -17,6 +17,7 @@ class RekapNilaiByKaprodiResource extends JsonResource
         return [
             'nrp' => $this->nrp,
             'nama' => $this->nama,
+            'total_nilai' => $this->total_nilai,
         ];
     }
 }

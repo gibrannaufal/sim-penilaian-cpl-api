@@ -30,6 +30,7 @@ class RekapNilaiMahasiswaController extends Controller
             
         $filter = [
             'nama_mahasiswa' => $request->nama_mahasiswa ?? '',
+            'id_mk_fk' => $request->id_mk_fk ?? '',
 
         ];
         $listMahasiswa = $this->rekapNilai->getAll($filter, $request->itemperpage ?? 0, $request->sort ?? '');

@@ -170,13 +170,16 @@ class EvaluasiCplHelper
                         $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['total_skor'] += $value->total_nilai;
                         if(isset($arrTotalNilai[$value->kode_cpl]))
                         {
-                            $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['capaian_cpl'] += ($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100;
+                            // $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['capaian_cpl'] += ($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100;
+                            $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['capaian_cpl'] += round(($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100, 2);
+
                         }
                     } else {
                         $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['total_skor'] =  $value->total_nilai ;
                         if(isset($arrTotalNilai[$value->kode_cpl]))
                         {
-                            $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['capaian_cpl'] =  ($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100;
+                            // $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['capaian_cpl'] =  ($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100;
+                            $arrMahasiswa[$value->nrp]['detail'][$value->kode_cpl]['capaian_cpl'] =  round(($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100, 2);
                         }
                     }
                 } else {
@@ -186,7 +189,8 @@ class EvaluasiCplHelper
                         'detail' => [
                             $value->kode_cpl => [
                                 'total_skor' => $value->total_nilai,
-                                'capaian_cpl' => (isset($arrTotalNilai[$value->kode_cpl])) ? ($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100 : null
+                                // 'capaian_cpl' => (isset($arrTotalNilai[$value->kode_cpl])) ? ($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100 : null
+                                'capaian_cpl' => (isset($arrTotalNilai[$value->kode_cpl])) ? round(($value->total_nilai / $arrTotalNilai[$value->kode_cpl]) * 100, 2) : null
                             ]
                         ],
                         'totalSkorAll' => 0,
