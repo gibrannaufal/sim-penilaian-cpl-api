@@ -22,7 +22,7 @@ class FilterController extends Controller
     public function getKurilumFilter(Request $request)
     {
         // dd("coba");
-        $listKurikulum = KurikulumModel::select('id_kurikulum', 'kode_kurikulum', 'nama_kurikulum')
+        $listKurikulum = KurikulumModel::select('id_kurikulum', 'kode_kurikulum', 'nama_kurikulum', 'tahun')
         ->where('m_kurikulum.status', '=', 'diterima')
         ->orderBy('id_kurikulum', 'desc')
         ->get();

@@ -47,7 +47,6 @@ class MataKuliahController extends Controller
             'bobot',
             'semester',
             'bobot_kajian',
-            'uuid_api',
             'prodi',
             'kelas',
             'mk_detail'
@@ -99,7 +98,6 @@ class MataKuliahController extends Controller
             'bobot',
             'semester',
             'bobot_kajian',
-            'uuid_api',
             'prodi',
             'kelas',
             'status',

@@ -23,6 +23,8 @@ class MataKuliahResource extends JsonResource
             'bobot' => $this->bobot,
             'semester' => $this->semester,
             'bobot_kajian' => $this->bobot_kajian,
+            'periode' => $this->periode,
+            'prodi' => $this->prodi,
             'id_kurikulum_fk' => $this->kurikulum['id_kurikulum'],
             'kode_kurikulum' => $this->kurikulum['kode_kurikulum'],
             'kurikulum' => $this->kurikulum,

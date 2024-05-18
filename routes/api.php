@@ -91,10 +91,14 @@ Route::prefix('v1')->group(function () {
     Route::get('/rekapNilai/mahasiswa', [RekapNilaiMahasiswaController::class, 'rekapMahasiswa'])->middleware(['auth.api']);
 
 
-    // api stiki
+    // api stiki sudah tidak dibutuhkan (dibutuhkan jika mau sambung ke siakad)
     Route::get('/getMatkul', [ApiStikiController::class, 'getMatkul'])->middleware(['auth.api']);
     Route::get('/getListMahasiswa', [ApiStikiController::class, 'getListMahasiswa'])->middleware(['auth.api']);
     Route::get('/getAllMahasiswa', [ApiStikiController::class, 'getAllMahasiswa'])->middleware(['auth.api']);
+
+    //tabel dummy
+    Route::get('/getMahasiswaDummy', [ApiStikiController::class, 'getMahasiswaDummy'])->middleware(['auth.api']);
+
 
     //filter
     Route::get('/kurikulumFilter', [FilterController::class, 'getKurilumFilter'])->middleware(['auth.api']);

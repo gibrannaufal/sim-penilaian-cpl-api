@@ -45,7 +45,6 @@ class MataKuliahModel extends Model
         'bobot_kajian',
         'status',
         'pesan',
-        'uuid_api',
         'prodi',
         'kelas'
     ];
