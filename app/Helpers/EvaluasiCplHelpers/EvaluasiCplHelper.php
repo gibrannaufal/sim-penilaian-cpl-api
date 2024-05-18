@@ -85,12 +85,13 @@ class EvaluasiCplHelper
                 'm_detailmk.id_cpl_fk',
                 detailmkModel::raw('SUM(m_detailmk.bobot_detailmk) AS total_cpl')
             )
+            ->where('m_detailmk.is_nilai', '=', 1)
             ->whereIn('m_detailmk.id_mk_fk', array_values($arrListMk));
 
             $listCpl = $listCpl->orderBy('id_cpl_fk', 'asc')->groupBy('m_detailmk.id_cpl_fk')->get();
             
             if ($listCpl->isEmpty()) {
-                throw new \Exception('Tidak ada cpl yang ditemukan untuk kurikulum ini.');
+                throw new \Exception('Tidak ada cpl atau cpmk belum dilakukan penilaian pada kurikulum ini.');
             }
 
             // ambil nama cpl nya
@@ -277,6 +278,7 @@ class EvaluasiCplHelper
                 'm_detailmk.id_cpl_fk',
                 detailmkModel::raw('SUM(m_detailmk.bobot_detailmk) AS total_cpl')
             )
+            ->where('m_detailmk.is_nilai', '=', 1)
             ->whereIn('m_detailmk.id_mk_fk', array_values($arrListMk));
 
             $listCpl = $listCpl->orderBy('id_cpl_fk', 'asc')->groupBy('m_detailmk.id_cpl_fk')->get();
