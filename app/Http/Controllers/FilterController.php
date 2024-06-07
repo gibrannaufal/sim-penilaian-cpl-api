@@ -249,7 +249,7 @@ class FilterController extends Controller
             'm_cpl.kode_cpl',
             )
         ->leftJoin('m_matakuliah', 'm_matakuliah.id_matakuliah', '=', 't_totalnilai_cpmk.id_mk_fk')
-        ->leftJoin('m_detailmk', 't_totalnilai_cpmk.id_mk_fk', '=', 'm_detailmk.id_detailmk')
+        ->leftJoin('m_detailmk', 't_totalnilai_cpmk.id_detailmk_fk', '=', 'm_detailmk.id_detailmk')
         ->leftJoin('m_cpl', 'm_cpl.id_cpl', '=', 'm_detailmk.id_cpl_fk')
         ->leftJoin('m_cpmk', 'm_cpmk.id_cpmk', '=', 'm_detailmk.id_cpmk_fk');
 

@@ -24,7 +24,11 @@ class PenilaianMkController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = ['nama_mk' => $request->nama_mk ?? ''];
+        $filter = [
+            'nama_mk' => $request->nama_mk ?? '',
+            'nip' => $request->nip ?? '',
+            'roles_name' => $request->roles_name ?? '',
+        ];
         $listMk = $this->penilaian->getAll($filter, $request->itemperpage ?? 0, $request->sort ?? '');
         return response()->success(new PenilaianMkCollection($listMk));
     }

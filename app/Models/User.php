@@ -48,6 +48,7 @@ class User extends Authenticatable implements JWTSubject
         'jenis_kelamin',
         'prodi',
         'nrp',
+        'nip',
     ];
 
     /**

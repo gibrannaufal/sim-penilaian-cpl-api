@@ -7,6 +7,7 @@ use App\Http\Resources\RekapNilaiMahasiswa\Kaprodi\RekapNilaiByKaprodiResource;
 use App\Helpers\RekapNilaiMahasiswaHelpers\RekapNilaiMahasiswaHelper;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MataKuliah\MataKuliahCollection;
 use App\Http\Resources\RekapNilaiMahasiswa\Mahasiswa\RekapNilaiForMahasiswaCollection;
 use Illuminate\Http\Request;
 
@@ -36,6 +37,26 @@ class RekapNilaiMahasiswaController extends Controller
         $listMahasiswa = $this->rekapNilai->getAll($filter, $request->itemperpage ?? 0, $request->sort ?? '');
 
         return response()->success(new RekapNilaiByKaprodiCollection($listMahasiswa));
+    }
+
+    /**
+     * menampilkan matkul sesuai dengan 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMatkulRekap(Request $request)
+    {
+        // dd("coba");
+            
+        $filter = [
+            'nama_mk' => $request->nama_mk ?? '',
+            'nip' => $request->nip ?? '',
+            'roles_name' => $request->roles_name ?? '',
+
+        ];
+        $listMatakuliah = $this->rekapNilai->getMatkul($filter, $request->itemperpage ?? 0, $request->sort ?? '');
+
+        return response()->success(new MataKuliahCollection($listMatakuliah));
     }
 
     /**

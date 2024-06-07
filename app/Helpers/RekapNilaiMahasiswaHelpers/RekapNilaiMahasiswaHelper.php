@@ -5,6 +5,7 @@ namespace App\Helpers\RekapNilaiMahasiswaHelpers;
 use Throwable;
 use App\Models\CpmkModel;
 use App\Models\EvaluasiCplModel;
+use App\Models\MataKuliahModel;
 use App\Models\RekapNilaiMahasiswaModel;
 use Illuminate\Support\Facades\DB;
 
@@ -17,10 +18,12 @@ use Illuminate\Support\Facades\DB;
 class RekapNilaiMahasiswaHelper
 {
     private $rekapNilai;
+    private $mataKuliah;
 
     public function __construct()
     {
         $this->rekapNilai = new RekapNilaiMahasiswaModel();
+        $this->mataKuliah = new MataKuliahModel();
     }
      /**
      * Mengambil data  mahasiswa dari tabel m_penilaian
@@ -39,6 +42,22 @@ class RekapNilaiMahasiswaHelper
         return $this->rekapNilai->getAll($filter, $itemPerPage, $sort);
     }
 
+     /**
+     * Mengambil data  mahasiswa dari tabel m_penilaian
+     *
+     * @author Muhammad Naufal Gibran naufalgibran961@gmail.com
+     *
+     * @param  array $filter
+     * $filter['nama_mahasiswa'] = string
+     * @param integer $itemPerPage jumlah data yang tampil dalam 1 halaman, kosongi jika ingin menampilkan semua data
+     * @param string $sort nama kolom untuk melakukan sorting mysql beserta tipenya DESC / ASC
+     *
+     * @return object
+     */
+    public function getMatkul(array $filter, int $itemPerPage = 0, string $sort = ''): object
+    {
+        return $this->mataKuliah->getAllMk($filter, $itemPerPage, $sort);
+    }
 
      /**
      * Mengambil data  rekap nilai dari tabel m_penilaian

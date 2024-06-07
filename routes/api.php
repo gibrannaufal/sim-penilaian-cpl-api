@@ -87,6 +87,7 @@ Route::prefix('v1')->group(function () {
 
     // rekap nilai
     Route::get('/rekapNilai', [RekapNilaiMahasiswaController::class, 'index'])->middleware(['auth.api']);
+    Route::get('/rekapNilai/getMatkulRekap', [RekapNilaiMahasiswaController::class, 'getMatkulRekap'])->middleware(['auth.api']);
     Route::get('/rekapNilai/rekap', [RekapNilaiMahasiswaController::class, 'rekap'])->middleware(['auth.api']);
     Route::get('/rekapNilai/mahasiswa', [RekapNilaiMahasiswaController::class, 'rekapMahasiswa'])->middleware(['auth.api']);
 

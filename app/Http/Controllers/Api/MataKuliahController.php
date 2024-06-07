@@ -48,6 +48,7 @@ class MataKuliahController extends Controller
             'semester',
             'bobot_kajian',
             'prodi',
+            'periode',  
             'kelas',
             'mk_detail'
         ]);
@@ -102,6 +103,7 @@ class MataKuliahController extends Controller
             'kelas',
             'status',
             'mk_detail',
+            'periode',
             'mk_detail_deleted'
         ]);
 

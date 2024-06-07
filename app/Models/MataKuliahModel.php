@@ -46,7 +46,8 @@ class MataKuliahModel extends Model
         'status',
         'pesan',
         'prodi',
-        'kelas'
+        'kelas',
+        'periode'
     ];
     /**
          * Relasi ke tabel child m_kurikulum
@@ -88,14 +89,24 @@ class MataKuliahModel extends Model
     public function getAllMk(array $filter, int $itemPerPage = 0, string $sort = ''): object
     {
         $mk = $this->query()
+        ->select(
+            'm_matakuliah.*',
+            'm_perwalian.id_matakuliah as id_mk_fk',
+        )
+        ->leftJoin('m_perwalian', 'm_perwalian.id_matakuliah', '=', 'm_matakuliah.id_matakuliah')
         ->where('status', '=', 'diterima');
 
-        if (!empty($filter['nama_matakuliah'])) {
+        if (!empty($filter['nama_mk'])) {
             $mk->where('nama_matakuliah', 'LIKE', '%'.$filter['nama_mk'].'%');
+        }
+
+        if (!empty($filter['nip']) && $filter['roles_name'] === 'dosen') {
+            $mk->where('m_perwalian.nip', '=',$filter['nip']);
         }
 
         $sort = $sort ?: 'id_matakuliah DESC';
         $mk->orderByRaw($sort);
+        $mk->groupBy('m_matakuliah.id_matakuliah'); 
         $itemPerPage = $itemPerPage > 0 ? $itemPerPage : false;
         
         return $mk->paginate($itemPerPage)->appends('sort', $sort);
