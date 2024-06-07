@@ -33,10 +33,8 @@ class ApiStikiController extends Controller
     public function getListMahasiswa(Request $request)
     {
         $payload = $request->only([
-            'uid',
             'id_mk_fk',
             'id_detailmk_fk',
-            'id_mk_fk',
             'id_subcpmk_fk',
         ]);
 

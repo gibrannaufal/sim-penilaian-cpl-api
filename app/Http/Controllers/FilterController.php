@@ -16,6 +16,7 @@ class FilterController extends Controller
 {
     /**
      * Menampilkan kurikulum untuk filter.
+     * hanya yang diterima saja
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,6 +25,22 @@ class FilterController extends Controller
         // dd("coba");
         $listKurikulum = KurikulumModel::select('id_kurikulum', 'kode_kurikulum', 'nama_kurikulum', 'tahun')
         ->where('m_kurikulum.status', '=', 'diterima')
+        ->orderBy('id_kurikulum', 'desc')
+        ->get();
+
+        return response()->json($listKurikulum);
+    }
+
+    /**
+     * Menampilkan kurikulum untuk filter.
+     * semua tanpa filter terima atau tidak
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getKurilumFilterAll(Request $request)
+    {
+        // dd("coba");
+        $listKurikulum = KurikulumModel::select('id_kurikulum', 'kode_kurikulum', 'nama_kurikulum', 'tahun')
         ->orderBy('id_kurikulum', 'desc')
         ->get();
 

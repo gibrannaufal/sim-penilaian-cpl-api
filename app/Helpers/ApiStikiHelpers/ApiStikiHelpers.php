@@ -84,65 +84,14 @@ class ApiStikiHelpers
 
     public function getKelas(array $payload)
     {
-        // Panggil fungsi connect untuk mendapatkan token sesi
-        $output = $this->zuko->connect();
-        $token = $output['data']['session_token'];
-        
-        $par = array(
-            'kelas_uid' => $payload['uid']
-        
-          );  
-        
-        $listApi = $this->zuko->get_peserta_kelas($token,$par);
-
         $listPenilaian = PenilaianMkModel::select('*')
         ->where('id_subcpmk_fk', '=', $payload['id_subcpmk_fk'])
         ->where('id_mk_fk', '=', $payload['id_mk_fk'])
         ->where('id_detailmk_fk', '=', $payload['id_detailmk_fk'])
         ->orderBy('id_penilaian', 'desc')
-        ->get();
-
-          
-        $arrayKelas = [];
-
-        foreach ($listPenilaian as $penilaian) {
-           $arrayKelas[$penilaian['nrp']] = $penilaian;
-        }
-
-        foreach ($listApi['data']  as $key => $listMahasiswa) {
-			if(isset($arrayKelas[$listMahasiswa['nrp']]))
-			{  
-                $listApi['data'][$key]['id_penilaian'] = $arrayKelas[$listMahasiswa['nrp']]['id_penilaian'];
-                $listApi['data'][$key]['id_mk_fk'] = $payload['id_mk_fk'];
-                $listApi['data'][$key]['id_detailmk_fk'] = $payload['id_detailmk_fk'];
-                $listApi['data'][$key]['id_subcpmk_fk'] = $payload['id_subcpmk_fk'];
-                $listApi['data'][$key]['nrp'] = strval($arrayKelas[$listMahasiswa['nrp']]['nrp']);
-                $listApi['data'][$key]['nama'] = $arrayKelas[$listMahasiswa['nrp']]['nama'];
-                $listApi['data'][$key]['prodi'] = $arrayKelas[$listMahasiswa['nrp']]['prodi'];
-                $listApi['data'][$key]['partisipasi'] = $arrayKelas[$listMahasiswa['nrp']]['partisipasi'];
-                $listApi['data'][$key]['tugas'] = $arrayKelas[$listMahasiswa['nrp']]['tugas'];
-                $listApi['data'][$key]['presentasi'] = $arrayKelas[$listMahasiswa['nrp']]['presentasi'];
-                $listApi['data'][$key]['tes_tulis'] = $arrayKelas[$listMahasiswa['nrp']]['tes_tulis'];
-                $listApi['data'][$key]['tes_lisan'] = $arrayKelas[$listMahasiswa['nrp']]['tes_lisan'];
-                $listApi['data'][$key]['tugas_kelompok'] = $arrayKelas[$listMahasiswa['nrp']]['tugas_kelompok'];
-                $listApi['data'][$key]['total_nilai'] = $arrayKelas[$listMahasiswa['nrp']]['total_nilai'];
-			}else{
-                $listApi['data'][$key]['id_penilaian'] = 0;
-                $listApi['data'][$key]['id_mk_fk'] = $payload['id_mk_fk'];
-                $listApi['data'][$key]['id_detailmk_fk'] = $payload['id_detailmk_fk'];
-                $listApi['data'][$key]['id_subcpmk_fk'] = $payload['id_subcpmk_fk'];
-                $listApi['data'][$key]['partisipasi'] = 0;
-                $listApi['data'][$key]['tugas'] = 0 ;
-                $listApi['data'][$key]['presentasi'] = 0;
-                $listApi['data'][$key]['tes_tulis'] = 0;
-                $listApi['data'][$key]['tes_lisan'] = 0;
-                $listApi['data'][$key]['tugas_kelompok'] = 0;
-                $listApi['data'][$key]['total_nilai'] =0;
-            }
-	
-		}
-
-       return $listApi['data'];
+        ->toSql();
+        
+       return $listPenilaian;
 
 
     }
