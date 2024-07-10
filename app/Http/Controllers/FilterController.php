@@ -114,7 +114,7 @@ class FilterController extends Controller
             'm_cpmk.deskripsi_cpmk', 
             'm_cpl.kode_cpl',
             'm_cpl.deskripsi_cpl',
-            DB::raw('COUNT(CASE WHEN m_subcpmk.available = 0 THEN m_subcpmk.id_subcpmk END) AS jumlah_belum_nilai')
+            DB::raw('COUNT(CASE WHEN m_subcpmk.available = 0 AND m_subcpmk.deleted_at IS NULL THEN m_subcpmk.id_subcpmk END) AS jumlah_belum_nilai')
             )
         ->leftJoin("m_subcpmk", "m_subcpmk.id_detailmk_fk", "=", "m_detailmk.id_detailmk")
         ->leftJoin("m_cpmk", "m_cpmk.id_cpmk", "=", "m_detailmk.id_cpmk_fk")

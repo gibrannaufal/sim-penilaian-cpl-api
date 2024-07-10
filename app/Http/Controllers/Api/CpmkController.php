@@ -57,7 +57,7 @@ class CpmkController extends Controller
         }
         // dd($cpmk['data']);
 
-        return response()->success(new CpmkResource($cpmk['data']), 'kurikulum berhasil ditambahkan');
+        return response()->success(new CpmkResource($cpmk['data']), 'CPMK berhasil ditambahkan');
     }
 
     /**
@@ -102,7 +102,7 @@ class CpmkController extends Controller
             return response()->failed($cpmk['error']);
         }
 
-        return response()->success(new CpmkResource($cpmk['data']), 'kurikulum berhasil diubah');
+        return response()->success(new CpmkResource($cpmk['data']), 'CPMK berhasil diubah');
     }
 
     /**

@@ -93,8 +93,7 @@ class MataKuliahModel extends Model
             'm_matakuliah.*',
             'm_perwalian.id_matakuliah as id_mk_fk',
         )
-        ->leftJoin('m_perwalian', 'm_perwalian.id_matakuliah', '=', 'm_matakuliah.id_matakuliah')
-        ->where('status', '=', 'diterima');
+        ->leftJoin('m_perwalian', 'm_perwalian.id_matakuliah', '=', 'm_matakuliah.id_matakuliah');
 
         if (!empty($filter['nama_mk'])) {
             $mk->where('nama_matakuliah', 'LIKE', '%'.$filter['nama_mk'].'%');
