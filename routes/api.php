@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\MataKuliahController;
 use App\Http\Controllers\Api\ValidasiMkController;
 use App\Http\Controllers\Api\EvaluasiCplController;
 use App\Http\Controllers\Api\PenilaianMkController;
-use App\Http\Controllers\api\RekapNilaiMahasiswaController;
+use App\Http\Controllers\Api\RekapNilaiMahasiswaController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\ValidasiKurikulumController;
 use App\Http\Controllers\UserController;
