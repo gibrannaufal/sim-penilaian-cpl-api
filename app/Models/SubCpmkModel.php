@@ -200,12 +200,11 @@ class SubCpmkModel extends Model
             $kata .= 'Tes Lisan'.'('. $this->tes_lisan . ')';
         }
 
-        if (isset($this->tugas_kelompok) && $this->tugas_kelompok === 1) {
-            // Jika sudah ada kata sebelumnya, tambahkan koma
+        if (isset($this->tugas_kelompok) && $this->tugas_kelompok >= 1) {
             if ($kata !== '') {
-                $kata .= ', '.'('. $this->tugas_kelompok . ')';
+                $kata .= ', ';
             }
-            $kata .= 'Tugas Kelompok / Proyek';
+            $kata .= 'Tugas Kelompok/Proyek'.'('. $this->tugas_kelompok . ')';
         }
        
         return $kata;
